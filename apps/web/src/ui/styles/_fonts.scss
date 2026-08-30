@@ -1,0 +1,31 @@
+@mixin createFont($name, $weight, $style) {
+  // All fonts are from https://gwfh.mranftl.com/fonts
+
+  @font-face {
+    font-display: swap;
+    font-family: $name;
+
+    @if $style == "regular" {
+      font-style: normal;
+    } @else {
+      font-style: italic;
+    }
+
+    font-weight: $weight;
+    src:
+      url("/fonts/#{$name}/#{$name}-#{$weight}-#{$style}.woff2") format("woff2"),
+      /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+        url("/fonts/#{$name}/#{$name}-#{$weight}-#{$style}.ttf")
+        format("truetype"); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
+  }
+}
+
+$fonts-names: "Ibm-plex-mono", "Ibm-plex-sans";
+$fonts-weights: 400, 500, 700;
+
+@each $name in $fonts-names {
+  @each $weight in $fonts-weights {
+    @include createFont($name, $weight, "italic");
+    @include createFont($name, $weight, "regular");
+  }
+}

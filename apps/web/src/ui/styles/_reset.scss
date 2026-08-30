@@ -1,0 +1,76 @@
+@use "./fonts";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.5;
+  font-family: "Ibm-plex-sans";
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+
+  &,
+  p {
+    overflow-wrap: break-word;
+  }
+}
+
+pre, code {
+  font-family: "Ibm-plex-mono";
+}
+
+#root {
+  min-height: 100dvh;
+  isolation: isolate;
+}
