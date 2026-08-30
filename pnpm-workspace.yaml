@@ -1,6 +1,9 @@
 allowBuilds:
   '@parcel/watcher': false
+  bufferutil: false
+  es5-ext: false
   esbuild: true
+  utf-8-validate: false
 
 packages:
   - "apps/*"
