@@ -1,30 +1,10 @@
+@use "../../../styles/tokens" as t;
 @use "sass:map";
 
 $text-variants: "default", "terminal", "terminal-subtle";
-
-$text-colors: (
-  default: #f2f2f2,
-  inherit: inherit,
-  success: #0fa626,
-  error: #c21906,
-  warning: #db8b0b,
-);
-
-$text-sizes: (
-  xs: 0.75rem,
-  sm: 0.875rem,
-  md: 1rem,
-  lg: 1.125rem,
-  xl: 1.25rem,
-);
-
-$text-sizes-heights: (
-  xs: 1rem,
-  sm: 1.25rem,
-  md: 1.5rem,
-  lg: 1.75rem,
-  xl: 1.75rem,
-);
+$text-colors: map.get(t.$tokens-map, text, color);
+$text-sizes: map.get(t.$tokens-map, text, size);
+$text-line-heights: map.get(t.$tokens-map, text, line-height);
 
 .text {
   display: inline;
@@ -41,7 +21,7 @@ $text-sizes-heights: (
   @each $size, $font-size in $text-sizes {
     &[data-size="#{$size}"] {
       font-size: $font-size;
-      line-height: map.get($text-sizes-heights, $size);
+      line-height: map.get($text-line-heights, $size);
     }
   }
 

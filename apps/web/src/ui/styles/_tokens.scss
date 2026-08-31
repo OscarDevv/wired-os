@@ -1,0 +1,47 @@
+@use "sass:meta";
+
+$tokens-map: (
+  text: (
+    color: (
+      default: #f2f2f2,
+      inherit: inherit,
+      success: #0fa626,
+      error: #c21906,
+      warning: #db8b0b,
+    ),
+
+    size: (
+      xs: 0.75rem,
+      sm: 0.875rem,
+      md: 1rem,
+      lg: 1.125rem,
+      xl: 1.25rem,
+    ),
+
+    line-height: (
+      xs: 1rem,
+      sm: 1.25rem,
+      md: 1.5rem,
+      lg: 1.75rem,
+      xl: 1.75rem,
+    ),
+  ),
+);
+
+@mixin generate-tokens($map, $prefix: "") {
+  @each $key, $value in $map {
+    $name: if(
+      sass($prefix == ""): $key; else: "#{$prefix}-#{$key}",
+    );
+
+    @if meta.type-of($value) == "map" {
+      @include generate-tokens($value, $name);
+    } @else {
+      --#{$name}: #{$value};
+    }
+  }
+}
+
+:root {
+  @include generate-tokens($tokens-map);
+}
