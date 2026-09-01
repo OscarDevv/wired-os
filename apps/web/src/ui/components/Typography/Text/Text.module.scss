@@ -1,0 +1,41 @@
+@use "../../../styles/tokens" as t;
+@use "sass:map";
+
+$text-variants: "default", "terminal", "terminal-subtle";
+$text-colors: map.get(t.$tokens-map, text, color);
+$text-sizes: map.get(t.$tokens-map, text, size);
+$text-line-heights: map.get(t.$tokens-map, text, line-height);
+
+.text {
+  display: inline;
+
+  &[data-variant="default"] {
+    font-family: "Ibm-plex-sans", Arial, Helvetica, sans-serif;
+  }
+
+  &[data-variant="terminal"],
+  &[data-variant="terminal-subtle"] {
+    font-family: "Ibm-plex-mono", monospace;
+  }
+
+  @each $size, $font-size in $text-sizes {
+    &[data-size="#{$size}"] {
+      font-size: $font-size;
+      line-height: map.get($text-line-heights, $size);
+    }
+  }
+
+  @each $variant in $text-variants {
+    @each $color-name, $color in $text-colors {
+      &[data-variant="#{$variant}"][data-color="#{$color-name}"] {
+        @if $variant == "default" or $variant == "terminal" {
+          background-color: transparent;
+          color: $color;
+        } @else if $variant == "terminal-subtle" {
+          background-color: $color;
+          color: inherit;
+        }
+      }
+    }
+  }
+}
