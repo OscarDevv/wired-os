@@ -1,14 +1,17 @@
 @use "sass:meta";
+@use "sass:map";
+
+$typography-colors: (
+  default: #f2f2f2,
+  inherit: inherit,
+  success: #0fa626,
+  error: #c21906,
+  warning: #db8b0b,
+);
 
 $tokens-map: (
   text: (
-    color: (
-      default: #f2f2f2,
-      inherit: inherit,
-      success: #0fa626,
-      error: #c21906,
-      warning: #db8b0b,
-    ),
+    color: $typography-colors,
 
     size: (
       xs: 0.75rem,
@@ -24,6 +27,26 @@ $tokens-map: (
       md: 1.5rem,
       lg: 1.75rem,
       xl: 1.75rem,
+    ),
+  ),
+
+  heading: (
+    color: $typography-colors,
+
+    size: (
+      xs: 1.25rem,
+      sm: 1.5rem,
+      md: 1.75rem,
+      lg: 2rem,
+      xl: 2.5rem,
+    ),
+
+    line-height: (
+      xs: 1.5rem,
+      sm: 1.75rem,
+      md: 2rem,
+      lg: 2.25rem,
+      xl: 2.75rem,
     ),
   ),
 );

@@ -1,0 +1,54 @@
+@use "sass:map";
+@use "../../../styles/tokens" as t;
+
+$heading-variants: "default", "display", "section", "subtle";
+$heading-colors: map.get(t.$tokens-map, heading, color);
+$heading-sizes: map.get(t.$tokens-map, heading, size);
+$heading-line-heights: map.get(t.$tokens-map, heading, line-height);
+
+.heading {
+  font-family: "Ibm-plex-sans", Arial, Helvetica, sans-serif;
+
+  @each $size, $value in $heading-sizes {
+    &[data-size="#{$size}"] {
+      font-size: $value;
+      line-height: map.get($heading-line-heights, $size);
+    }
+  }
+
+  @each $color-name, $color in $heading-colors {
+    &[data-color="#{$color-name}"] {
+      color: $color;
+    }
+  }
+
+  @each $variant in $heading-variants {
+    &[data-variant="#{$variant}"] {
+      @if $variant == "default" {
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      } @else if $variant == "display" {
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      } @else if $variant == "section" {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+
+        &::before {
+          content: "";
+          width: 0.75rem;
+          height: 2px;
+          background: currentColor;
+        }
+      } @else if $variant == "subtle" {
+        font-weight: 500;
+        letter-spacing: 0;
+      }
+    }
+  }
+}
