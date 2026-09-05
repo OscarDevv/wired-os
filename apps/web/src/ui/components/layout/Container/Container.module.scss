@@ -1,0 +1,15 @@
+@use "sass:map";
+@use "../../../styles/tokens" as t;
+
+$sizes: map.get(t.$tokens-map, container, size);
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+
+  @each $name, $value in $sizes {
+    &[data-size="#{$name}"] {
+      max-width: $value;
+    }
+  }
+}
