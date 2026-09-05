@@ -1,0 +1,56 @@
+@use "sass:map";
+@use "../../../styles/tokens" as t;
+
+$stack-gaps: map.get(t.$tokens-map, stack, gap);
+$stack-align: "center", "start", "end", "stretch";
+$stack-justify: "center", "start", "end", "around", "between", "evenly";
+
+.stack {
+  display: flex;
+  flex-direction: var(--stack-direction);
+  flex-wrap: nowrap;
+
+  &[data-inline="true"] {
+    display: inline-flex;
+  }
+
+  &[data-direction="row"] {
+    --stack-direction: row;
+    --stack-direction-reverse: row-reverse;
+  }
+
+  &[data-direction="column"] {
+    --stack-direction: column;
+    --stack-direction-reverse: column-reverse;
+  }
+
+  &[data-reverse="true"] {
+    --stack-direction: var(--stack-direction-reverse)
+  }
+
+  &[data-wrapable="true"] {
+    flex-wrap: wrap;
+  }
+
+  @each $name, $gap in $stack-gaps {
+    &[data-gap="#{$name}"] {
+      gap: $gap;
+    }
+  }
+
+  @each $align in $stack-align {
+    &[data-align="#{$align}"] {
+      align-items: #{$align};
+    }
+  }
+
+  @each $justify in $stack-justify {
+    &[data-justify="#{$justify}"] {
+      @if $justify != "around" and $justify != "between" and $justify != "evenly" {
+        justify-content: #{$justify};
+      } @else {
+        justify-content: space-#{$justify};
+      }
+    }
+  }
+}
