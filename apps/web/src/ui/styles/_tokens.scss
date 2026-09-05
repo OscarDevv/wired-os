@@ -49,6 +49,16 @@ $tokens-map: (
       xl: 2.75rem,
     ),
   ),
+
+  stack: (
+    gap: (
+      xs: 4px,
+      sm: 8px,
+      md: 16px,
+      lg: 24px,
+      xl: 36px
+    )
+  )
 );
 
 @mixin generate-tokens($map, $prefix: "") {
