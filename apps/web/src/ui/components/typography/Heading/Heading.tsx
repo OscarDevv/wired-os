@@ -1,4 +1,3 @@
-import type { JSX } from "react/jsx-runtime";
 import styles from "./Heading.module.scss";
 import type { HeadingProps } from "./Heading.types.ts";
 import clsx from "clsx";
@@ -10,8 +9,9 @@ export function Heading({
   color = "default",
   className,
   children,
+  ...props
 }: HeadingProps) {
-  const Element = `h${level}` as keyof JSX.IntrinsicElements;
+  const Element = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
   return (
     <Element
@@ -19,6 +19,7 @@ export function Heading({
       data-variant={variant}
       data-size={size}
       data-color={color}
+      {...props}
     >
       {children}
     </Element>
