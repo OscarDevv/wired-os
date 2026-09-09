@@ -13,7 +13,7 @@ const screenMessages: string[] = [
   "WiredOS ready.",
 ];
 
-export function BootScreen() {
+export default function BootScreen() {
   const [msgIndex, setMesgIndex] = useState(0);
 
   useEffect(() => {
