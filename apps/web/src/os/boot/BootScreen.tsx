@@ -1,40 +1,71 @@
 import { useEffect, useState } from "react";
 import { Container } from "../../ui/components/layout/Container/Container";
-import { Stack } from "../../ui/components/layout/Stack/Stack";
-import { Heading } from "../../ui/components/typography/Heading/Heading";
 import { Text } from "../../ui/components/typography/Text/Text";
+import styles from "./BootScreen.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const screenMessages: string[] = [
   "> Initializing kernel....... OK",
   "> Mounting filesystem....... OK",
   "> Loading configuration..... OK",
   "> Starting window maneger... OK",
-  "> Connecting to the Wired... OK\n",
-  "WiredOS ready.",
+  "> Connecting to the Wired... OK",
 ];
 
 export default function BootScreen() {
-  const [msgIndex, setMesgIndex] = useState(0);
+  const [msgIndex, setMsgIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMesgIndex((c) => c + 1);
-    }, 500);
+    if (msgIndex > screenMessages.length) {
+      const timeout = setTimeout(() => {
+        navigate("/home");
+      }, 3000);
 
-    return () => clearInterval(interval);
-  });
+      return () => clearTimeout(timeout);
+    }
+
+    const timeout = setTimeout(
+      () => {
+        setMsgIndex((c) => c + 1);
+      },
+      Math.random() * (1500 - 250) + 250,
+    );
+
+    return () => clearTimeout(timeout);
+  }, [msgIndex, navigate]);
 
   return (
-    <Stack>
-      <Container>
-        <Heading>WiredOS</Heading>
+    <Container size="lg" className={styles.container}>
+      <Text
+        size="xl"
+        variant="terminal"
+        color="success"
+        className={styles.title}
+      >
+        WiredOS
+      </Text>
 
-        {screenMessages.slice(0, msgIndex + 1).map((msg, index) => (
-          <Text key={index} variant="terminal">
-            {msg}
-          </Text>
-        ))}
-      </Container>
-    </Stack>
+      {screenMessages.slice(0, msgIndex + 1).map((msg, index) => (
+        <Text
+          key={index}
+          className={styles.text}
+          variant="terminal"
+          color="success"
+        >
+          {msg}
+        </Text>
+      ))}
+
+      {msgIndex > screenMessages.length && (
+        <Text
+          className={styles.lastText}
+          variant="terminal-subtle"
+          color="success"
+        >
+          WiredOS is ready. Going to homepage in 3 seconds...
+        </Text>
+      )}
+    </Container>
   );
 }
