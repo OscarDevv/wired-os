@@ -16,6 +16,14 @@ export interface App {
   children: ReactNode
 }
 
-export const appsContext = createContext<AppsContext | null>(null)
+export const appsContext = createContext<AppsContext>({
+  apps: [],
+  getApp(id) { return undefined },
+  addApp(data) {},
+  removeApp(id) {},
+  updateApp(id, data) {},
+})
 
-export const useApps = useContext(appsContext) as AppsContext
+export function useApps() {
+  return useContext(appsContext) as AppsContext
+}
