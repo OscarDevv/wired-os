@@ -1,5 +1,5 @@
-import { useApps } from "../../../app/providers/apps-provider/index.ts";
-import { useWindows } from "../../../app/providers/windows-provider/index.ts";
+import { useApps } from "@app/providers/apps-provider/index.ts";
+import { useWindows } from "@app/providers/windows-provider/index.ts";
 import { Stack } from "../layout/Stack/Stack.tsx";
 import { Text } from "../typography/Text/Text.tsx";
 import styles from "./App.module.scss";

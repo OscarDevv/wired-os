@@ -20,7 +20,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Import alias */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@os/*": ["./src/os/*"],
+      "@ui/*": ["./src/ui/*"]
+    }
   },
   "include": ["src"]
 }
