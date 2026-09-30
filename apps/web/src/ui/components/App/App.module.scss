@@ -1,0 +1,41 @@
+.app {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 6px;
+  width: 85px;
+  height: 85px;
+  background: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    user-select: none;
+  }
+
+  .name {
+    width: 100%;
+    text-align: center;
+    user-select: none;
+    line-height: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
