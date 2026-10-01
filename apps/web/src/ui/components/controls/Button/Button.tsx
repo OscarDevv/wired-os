@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import styles from "./Button.module.scss";
-import type { ButtonProps } from "./Button.types.ts";
+import clsx from "clsx"
+import styles from "./Button.module.scss"
+import type { ButtonProps } from "./Button.types.ts"
 
 export function Button({
   variant = "default",
@@ -20,5 +20,5 @@ export function Button({
     >
       {children}
     </button>
-  );
+  )
 }

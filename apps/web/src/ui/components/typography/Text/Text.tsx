@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import styles from "./Text.module.scss";
-import type { TextProps } from "./Text.types.ts";
+import clsx from "clsx"
+import styles from "./Text.module.scss"
+import type { TextProps } from "./Text.types.ts"
 
 export function Text({
   as = "p",
@@ -11,7 +11,7 @@ export function Text({
   children,
   ...props
 }: TextProps) {
-  const Element = as;
+  const Element = as
 
   return (
     <Element
@@ -23,5 +23,5 @@ export function Text({
     >
       {children}
     </Element>
-  );
+  )
 }

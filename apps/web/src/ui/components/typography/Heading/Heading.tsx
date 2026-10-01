@@ -1,6 +1,6 @@
-import styles from "./Heading.module.scss";
-import type { HeadingProps } from "./Heading.types.ts";
-import clsx from "clsx";
+import styles from "./Heading.module.scss"
+import type { HeadingProps } from "./Heading.types.ts"
+import clsx from "clsx"
 
 export function Heading({
   variant = "default",
@@ -11,7 +11,7 @@ export function Heading({
   children,
   ...props
 }: HeadingProps) {
-  const Element = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  const Element = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 
   return (
     <Element
@@ -23,5 +23,5 @@ export function Heading({
     >
       {children}
     </Element>
-  );
+  )
 }

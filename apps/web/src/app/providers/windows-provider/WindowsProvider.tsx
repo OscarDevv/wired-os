@@ -1,18 +1,18 @@
-import { useState, type ReactNode } from "react";
-import { windowsContext, type Window } from ".";
-import { useApps } from "../apps-provider";
+import { useState, type ReactNode } from "react"
+import { windowsContext, type Window } from "."
+import { useApps } from "../apps-provider"
 
 export function WindowsProvider({ children }: { children: ReactNode }) {
-  const [windows, setWindows] = useState<Window[]>([]);
-  const { getApp } = useApps();
-  const { clientWidth, clientHeight } = document.documentElement;
+  const [windows, setWindows] = useState<Window[]>([])
+  const { getApp } = useApps()
+  const { clientWidth, clientHeight } = document.documentElement
 
   function openWindow(appId: string) {
     if (!windows.find((window) => window.appId === appId)) {
-      const app = getApp(appId);
+      const app = getApp(appId)
 
       if (app) {
-        const zIndex = windows.at(-1)?.zIndex;
+        const zIndex = windows.at(-1)?.zIndex
 
         setWindows((prev) => [
           ...prev,
@@ -26,13 +26,13 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
             zIndex: zIndex ? zIndex + 1 : 1,
             children: app.children,
           },
-        ]);
+        ])
       }
     }
   }
 
   function closeWindow(appId: string) {
-    setWindows((prev) => prev.filter((window) => window.appId !== appId));
+    setWindows((prev) => prev.filter((window) => window.appId !== appId))
   }
 
   function maximizeWindow(appId: string) {
@@ -48,7 +48,7 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
             }
           : window,
       ),
-    );
+    )
   }
 
   function moveWindow(appId: string, x: number, y: number) {
@@ -62,7 +62,7 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
             }
           : window,
       ),
-    );
+    )
   }
 
   function resizeWindow(appId: string, width: number, height: number) {
@@ -76,7 +76,7 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
             }
           : window,
       ),
-    );
+    )
   }
 
   function setWindowState(
@@ -92,7 +92,7 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
             }
           : window,
       ),
-    );
+    )
   }
 
   return (
@@ -109,5 +109,5 @@ export function WindowsProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </windowsContext.Provider>
-  );
+  )
 }

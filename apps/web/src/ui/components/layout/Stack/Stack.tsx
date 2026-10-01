@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import clsx from "clsx"
 import styles from "./Stack.module.scss"
 import type { StackProps } from "./Stack.types.ts"
 
@@ -15,7 +15,7 @@ export function Stack({
   children,
   ...props
 }: StackProps) {
-  const Element = as;
+  const Element = as
 
   return (
     <Element

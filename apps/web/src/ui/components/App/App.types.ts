@@ -1,3 +1,3 @@
 export interface AppProps {
-  id: string;
+  id: string
 }

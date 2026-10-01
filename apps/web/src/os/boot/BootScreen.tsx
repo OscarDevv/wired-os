@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Container } from "@ui/components/layout/Container/Container";
-import { Text } from "@ui/components/typography/Text/Text";
-import styles from "./BootScreen.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Container } from "@ui/components/layout/Container/Container"
+import { Text } from "@ui/components/typography/Text/Text"
+import styles from "./BootScreen.module.scss"
+import { useNavigate } from "react-router-dom"
 
 const screenMessages: string[] = [
   "> Initializing kernel....... OK",
@@ -10,30 +10,30 @@ const screenMessages: string[] = [
   "> Loading configuration..... OK",
   "> Starting window maneger... OK",
   "> Connecting to the Wired... OK",
-];
+]
 
 export default function BootScreen() {
-  const [msgIndex, setMsgIndex] = useState(0);
-  const navigate = useNavigate();
+  const [msgIndex, setMsgIndex] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (msgIndex > screenMessages.length) {
       const timeout = setTimeout(() => {
-        navigate("/home");
-      }, 3000);
+        navigate("/home")
+      }, 3000)
 
-      return () => clearTimeout(timeout);
+      return () => clearTimeout(timeout)
     }
 
     const timeout = setTimeout(
       () => {
-        setMsgIndex((c) => c + 1);
+        setMsgIndex((c) => c + 1)
       },
       Math.random() * (1500 - 250) + 250,
-    );
+    )
 
-    return () => clearTimeout(timeout);
-  }, [msgIndex, navigate]);
+    return () => clearTimeout(timeout)
+  }, [msgIndex, navigate])
 
   return (
     <Container size="lg" className={styles.container}>
@@ -67,5 +67,5 @@ export default function BootScreen() {
         </Text>
       )}
     </Container>
-  );
+  )
 }

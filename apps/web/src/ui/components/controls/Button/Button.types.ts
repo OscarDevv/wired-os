@@ -8,5 +8,5 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariants
   size?: ButtonSizes
   color?: ButtonColors
-  children: ReactNode;
+  children: ReactNode
 }

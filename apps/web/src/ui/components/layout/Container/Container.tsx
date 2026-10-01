@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import styles from "./Container.module.scss";
-import type { ContainerProps } from "./Container.types.ts";
+import clsx from "clsx"
+import styles from "./Container.module.scss"
+import type { ContainerProps } from "./Container.types.ts"
 
 export function Container({
   as = "div",
@@ -9,7 +9,7 @@ export function Container({
   children,
   ...props
 }: ContainerProps) {
-  const Element = as;
+  const Element = as
 
   return (
     <Element
@@ -19,5 +19,5 @@ export function Container({
     >
       {children}
     </Element>
-  );
+  )
 }

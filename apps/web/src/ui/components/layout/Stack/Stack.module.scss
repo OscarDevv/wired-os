@@ -25,7 +25,7 @@ $stack-justify: "center", "start", "end", "around", "between", "evenly";
   }
 
   &[data-reverse="true"] {
-    --stack-direction: var(--stack-direction-reverse)
+    --stack-direction: var(--stack-direction-reverse);
   }
 
   &[data-wrapable="true"] {
@@ -46,7 +46,13 @@ $stack-justify: "center", "start", "end", "around", "between", "evenly";
 
   @each $justify in $stack-justify {
     &[data-justify="#{$justify}"] {
-      @if $justify != "around" and $justify != "between" and $justify != "evenly" {
+      @if $justify !=
+        "around" and
+        $justify !=
+        "between" and
+        $justify !=
+        "evenly"
+      {
         justify-content: #{$justify};
       } @else {
         justify-content: space-#{$justify};
