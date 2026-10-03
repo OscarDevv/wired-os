@@ -1,19 +1,19 @@
-import { useApps } from "@app/providers/apps-provider/index.ts"
-import { useWindows } from "@app/providers/windows-provider/index.ts"
+import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import { Stack } from "../layout/Stack/Stack.tsx"
 import { Text } from "../typography/Text/Text.tsx"
 import styles from "./App.module.scss"
 import type { AppProps } from "./App.types.ts"
+import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 
 export function App({ id }: AppProps) {
-  const app = useApps().getApp(id)
+  const app = useAppsStore().find(id)
 
   if (!app) return null
 
-  const openWindow = useWindows().openWindow
+  const { open } = useWindowsStore()
 
   function handleClick() {
-    openWindow(id)
+    open(id)
   }
 
   return (
@@ -25,7 +25,7 @@ export function App({ id }: AppProps) {
       className={styles.app}
       onClick={handleClick}
     >
-      <img className={styles.icon} src={app.icon} alt={`${app.name} icon`} />
+      <img className={styles.icon} src={app.icon} alt={`${app.name} app icon`} />
 
       <Text size="sm" className={styles.name}>
         {app.name}
