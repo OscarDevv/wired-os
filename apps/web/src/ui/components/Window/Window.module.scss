@@ -1,3 +1,53 @@
-.Window {
-  color: red;
+.window {
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+  background: #070707;
+
+  .heading {
+    background: #2a2a2a;
+    margin: 4px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: move;
+
+    .title {
+      font-size: 18px !important;
+      width: 150px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .actions {
+      align-self: center;
+
+      button {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid;
+      display: block;
+
+      &[title="Minimize"] {
+        background: #bc9809;
+        border-color: #dfd139;
+      }
+
+      &[title="Maximize"], &[title="Restore"] {
+        background: #46b30b;
+        border-color: #6ffc24;
+      }
+
+      &[title="Close"] {
+        background: #a51407;
+        border-color: #ef2f1d;
+      }
+    }
+  }
+}
+
+
 }

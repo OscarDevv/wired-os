@@ -3,6 +3,8 @@ import styles from "./Window.module.scss"
 import type { WindowProps } from "./Window.types.ts"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 import { Rnd } from "react-rnd"
+import { Stack } from "../layout/Stack/Stack.tsx"
+import { Heading } from "../typography/Heading/Heading.tsx"
 
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
@@ -46,20 +48,27 @@ export function Window({ windowId }: WindowProps) {
 
         dragHandleClassName="window__header"
 
-        style={{
-          background: "red",
-        }}
-
         onMouseDown={() => focus(win.id)}
       >
-        <div>
-          <header className="window__header">
-            Header
-            <button onClick={() => minimize(win.id)}>Minimize</button>
-            <button onClick={() => restore(win.id)}>Restore</button>
-            <button onClick={() => maximize(win.id)}>Maximize</button>
-            <button onClick={() => close(win.id)}>Close</button>
-          </header>
+        <div className={styles.window} style={{ zIndex: win.zIndex }}>
+          <Stack className={`window__header ${styles.heading}`} justify="between">
+            <Stack gap="sm" align="center">
+              <img src={app.icon} alt={`${app.name} app icon`} />
+              <Heading level={6} className={styles.title}>{app.name}</Heading>
+            </Stack>
+
+            <Stack gap="sm" className={styles.actions}>
+              <button onClick={() => minimize(win.id)} title="Minimize"></button>
+
+              {win.state === "maximized" ?
+                <button onClick={() => restore(win.id)} title="Restore"></button>
+              :
+                <button onClick={() => maximize(win.id)} title="Maximize"></button>
+              }
+
+              <button onClick={() => close(win.id)} title="Close"></button>
+            </Stack>
+          </Stack>
 
           <main>
             <Component />
