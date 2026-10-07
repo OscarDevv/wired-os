@@ -12,8 +12,7 @@ export function Window({ windowId }: WindowProps) {
 
   if (!app || !win) return null
 
-  const { move, resize, minimize, maximize, restore, close, focus } =
-    useWindowsStore()
+  const { move, resize, minimize, maximize, restore, close } = useWindowsStore()
   const Component = app.component
 
   if (win.state === "minimized") return null
@@ -47,24 +46,36 @@ export function Window({ windowId }: WindowProps) {
         enableResizing={win.state === "floating"}
 
         dragHandleClassName="window__header"
-
-        onMouseDown={() => focus(win.id)}
       >
-        <div className={styles.window} style={{ zIndex: win.zIndex }}>
-          <Stack className={`window__header ${styles.heading}`} justify="between">
+        <div className={styles.window}>
+          <Stack
+            className={`window__header ${styles.heading}`}
+            justify="between"
+          >
             <Stack gap="sm" align="center">
               <img src={app.icon} alt={`${app.name} app icon`} />
-              <Heading level={6} className={styles.title}>{app.name}</Heading>
+              <Heading level={6} className={styles.title}>
+                {app.name}
+              </Heading>
             </Stack>
 
             <Stack gap="sm" className={styles.actions}>
-              <button onClick={() => minimize(win.id)} title="Minimize"></button>
+              <button
+                onClick={() => minimize(win.id)}
+                title="Minimize"
+              ></button>
 
-              {win.state === "maximized" ?
-                <button onClick={() => restore(win.id)} title="Restore"></button>
-              :
-                <button onClick={() => maximize(win.id)} title="Maximize"></button>
-              }
+              {win.state === "maximized" ? (
+                <button
+                  onClick={() => restore(win.id)}
+                  title="Restore"
+                ></button>
+              ) : (
+                <button
+                  onClick={() => maximize(win.id)}
+                  title="Maximize"
+                ></button>
+              )}
 
               <button onClick={() => close(win.id)} title="Close"></button>
             </Stack>

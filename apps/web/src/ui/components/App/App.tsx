@@ -25,7 +25,11 @@ export function App({ id }: AppProps) {
       className={styles.app}
       onClick={handleClick}
     >
-      <img className={styles.icon} src={app.icon} alt={`${app.name} app icon`} />
+      <img
+        className={styles.icon}
+        src={app.icon}
+        alt={`${app.name} app icon`}
+      />
 
       <Text size="sm" className={styles.name}>
         {app.name}

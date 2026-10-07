@@ -25,29 +25,28 @@
       align-self: center;
 
       button {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 1px solid;
-      display: block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid;
+        display: block;
 
-      &[title="Minimize"] {
-        background: #bc9809;
-        border-color: #dfd139;
-      }
+        &[title="Minimize"] {
+          background: #bc9809;
+          border-color: #dfd139;
+        }
 
-      &[title="Maximize"], &[title="Restore"] {
-        background: #46b30b;
-        border-color: #6ffc24;
-      }
+        &[title="Maximize"],
+        &[title="Restore"] {
+          background: #46b30b;
+          border-color: #6ffc24;
+        }
 
-      &[title="Close"] {
-        background: #a51407;
-        border-color: #ef2f1d;
+        &[title="Close"] {
+          background: #a51407;
+          border-color: #ef2f1d;
+        }
       }
     }
   }
-}
-
-
 }
