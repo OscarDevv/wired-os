@@ -4,6 +4,7 @@ import { Container } from "../ui/components/layout/Container/Container"
 import { Heading } from "../ui/components/typography/Heading/Heading"
 
 const BootScreen = lazy(() => import("../os/boot/BootScreen"))
+const DesktopScreen = lazy(() => import("../os/desktop/DesktopScreen"))
 
 function LoadingFallback() {
   return (
@@ -19,6 +20,7 @@ export function AppRouter() {
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           <Route path="/" element={<BootScreen />} />
+          <Route path="/home" element={<DesktopScreen />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

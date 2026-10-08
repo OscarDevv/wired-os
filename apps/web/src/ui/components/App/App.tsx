@@ -10,9 +10,16 @@ export function App({ id }: AppProps) {
 
   if (!app) return null
 
-  const { open } = useWindowsStore()
+  const { open, findByAppId, restore } = useWindowsStore()
 
   function handleClick() {
+    const window = findByAppId(id)
+
+    if (window) {
+      restore(window.id)
+      return
+    }
+
     open(id)
   }
 

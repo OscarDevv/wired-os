@@ -7,6 +7,7 @@ interface WindowsStore {
   close: (id: string) => void
 
   find: (id: string) => Window | undefined
+  findByAppId: (appId: string) => Window | undefined
 
   minimize: (id: string) => void
   maximize: (id: string) => void
@@ -75,6 +76,9 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
 
   find(id) {
     return get().windows.find((window) => window.id === id)
+  },
+  findByAppId(appId) {
+    return get().windows.find(window => window.appId === appId)
   },
 
   minimize(id) {
