@@ -5,7 +5,7 @@ import styles from "./App.module.scss"
 import type { AppProps } from "./App.types.ts"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 
-export function App({ id }: AppProps) {
+export function App({ id, variant = "default" }: AppProps) {
   const app = useAppsStore().find(id)
 
   if (!app) return null
@@ -27,10 +27,11 @@ export function App({ id }: AppProps) {
     <Stack
       direction="column"
       align="center"
-      justify="between"
+      justify="center"
       gap="xs"
       className={styles.app}
       onClick={handleClick}
+      data-variant={variant}
     >
       <img
         className={styles.icon}
@@ -38,9 +39,11 @@ export function App({ id }: AppProps) {
         alt={`${app.name} app icon`}
       />
 
-      <Text size="sm" className={styles.name}>
-        {app.name}
-      </Text>
+      {variant === "default" && (
+        <Text size="sm" className={styles.name}>
+          {app.name}
+        </Text>
+      )}
     </Stack>
   )
 }
