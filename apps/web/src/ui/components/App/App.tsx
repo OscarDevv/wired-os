@@ -10,9 +10,16 @@ export function App({ id }: AppProps) {
 
   if (!app) return null
 
-  const { open } = useWindowsStore()
+  const { open, findByAppId, restore } = useWindowsStore()
 
   function handleClick() {
+    const window = findByAppId(id)
+
+    if (window) {
+      restore(window.id)
+      return
+    }
+
     open(id)
   }
 
@@ -25,7 +32,11 @@ export function App({ id }: AppProps) {
       className={styles.app}
       onClick={handleClick}
     >
-      <img className={styles.icon} src={app.icon} alt={`${app.name} app icon`} />
+      <img
+        className={styles.icon}
+        src={app.icon}
+        alt={`${app.name} app icon`}
+      />
 
       <Text size="sm" className={styles.name}>
         {app.name}

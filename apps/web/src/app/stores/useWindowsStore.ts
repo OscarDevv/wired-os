@@ -7,7 +7,7 @@ interface WindowsStore {
   close: (id: string) => void
 
   find: (id: string) => Window | undefined
-  focus: (id: string) => void
+  findByAppId: (appId: string) => Window | undefined
 
   minimize: (id: string) => void
   maximize: (id: string) => void
@@ -21,7 +21,6 @@ interface Window extends WindowBounds {
   id: string
   appId: string
   restoreBounds: WindowBounds
-  zIndex: number
   state: "minimized" | "maximized" | "floating"
 }
 
@@ -55,27 +54,19 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
       },
     }
 
-    set((state) => {
-      const maxZIndex = Math.max(
-        0,
-        ...state.windows.map((window) => window.zIndex),
-      )
-
-      return {
-        windows: [
-          ...state.windows,
-          {
-            id,
-            appId,
-            position: bounds.position,
-            size: bounds.size,
-            restoreBounds: bounds,
-            state: "floating",
-            zIndex: maxZIndex + 1,
-          },
-        ],
-      }
-    })
+    set((state) => ({
+      windows: [
+        ...state.windows,
+        {
+          id,
+          appId,
+          position: bounds.position,
+          size: bounds.size,
+          restoreBounds: bounds,
+          state: "floating",
+        },
+      ],
+    }))
   },
   close(id) {
     set((state) => ({
@@ -86,28 +77,8 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
   find(id) {
     return get().windows.find((window) => window.id === id)
   },
-  focus(id) {
-    set((state) => {
-      const window = state.windows.find((window) => window.id === id)
-
-      if (!window) return state
-
-      const maxZIndex = Math.max(
-        0,
-        ...state.windows.map((window) => window.zIndex),
-      )
-
-      return {
-        windows: state.windows.map((window) =>
-          window.id === id
-            ? {
-                ...window,
-                zIndex: maxZIndex + 1,
-              }
-            : window,
-        ),
-      }
-    })
+  findByAppId(appId) {
+    return get().windows.find(window => window.appId === appId)
   },
 
   minimize(id) {
