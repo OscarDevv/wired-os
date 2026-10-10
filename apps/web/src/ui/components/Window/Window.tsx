@@ -53,7 +53,11 @@ export function Window({ windowId }: WindowProps) {
             justify="between"
           >
             <Stack gap="sm" align="center">
-              <img src={app.icon} alt={`${app.name} app icon`} className={styles.icon} />
+              <img
+                src={app.icon}
+                alt={`${app.name} app icon`}
+                className={styles.icon}
+              />
               <Heading level={6} className={styles.title}>
                 {app.name}
               </Heading>

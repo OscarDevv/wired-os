@@ -15,7 +15,7 @@ interface App {
   icon: string
   type: "system" | "normal"
   description?: string
-  fixed: boolean;
+  fixed: boolean
   component: ComponentType
 }
 
