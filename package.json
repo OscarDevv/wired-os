@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "script:component": "tsx ./scripts/create-component.ts",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "typecheck": "tsc -p apps/web/tsconfig.app.json --noEmit"
   },
   "keywords": [],
   "author": "",

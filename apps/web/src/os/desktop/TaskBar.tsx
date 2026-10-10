@@ -5,24 +5,30 @@ import { Button } from "@/ui/components/controls/Button/Button";
 import { Stack } from "@/ui/components/layout/Stack/Stack";
 import { IconGridDots } from "@tabler/icons-react";
 import styles from "./Desktop.module.scss"
+import { useState } from "react";
 
 export function TaskBar() {
   const { apps } = useAppsStore()
   const { windows } = useWindowsStore()
-
-  console.log(windows);
-  console.log(apps);
-
+  const [ menuOpen, setMenuOpen ] = useState(false)
 
   return (
     <Stack className={styles.taskbar} justify="center" align="center" gap="lg">
-      <Stack gap="sm" align="center">
-        <Button variant="outline" size="sm">
+      <Stack gap="sm" align="center" className={styles.taskbarSide1}>
+        <Button variant="outline" size="sm" onClick={() => setMenuOpen(prev => !prev)}>
           <IconGridDots />
         </Button>
 
+        {menuOpen && (
+          <div className={styles.menu}>
+            {apps.map(app =>
+              <App id={app.id} key={app.id} />
+            )}
+          </div>
+        )}
+
         <Stack gap="xs">
-          {apps.map(app =>
+          {apps.filter(app => app.fixed).map(app =>
             <App variant="simplified" id={app.id} key={app.id} />
           )}
         </Stack>

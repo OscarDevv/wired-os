@@ -25,6 +25,7 @@ export default function DesktopScreen() {
           component: () => <Text>{crypto.randomUUID()}</Text>,
           type: "normal",
           description: "A",
+          fixed: true,
           icon: i === 0 ?
             // Random apps images links for test
             "https://th.bing.com/th?q=App+Icon+BG+Transparent&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=pt-BR&cc=BR&setlang=pt-br&adlt=moderate&t=1&mw=247"
