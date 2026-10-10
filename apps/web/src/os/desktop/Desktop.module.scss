@@ -1,0 +1,17 @@
+.windowsContainer {
+  width: 100dvw;
+  height: calc(100dvh - 60px)
+}
+
+.taskbar {
+  width: 100dvw;
+  height: 60px;
+  background: rgba(242, 242, 242, 0.2);
+  border-top: 1px solid rgba(242, 242, 242, 0.4);
+  padding: 0 32px;
+
+  .horizontalDivider {
+    height: 43px;
+    border-left: 1px solid rgba(242, 242, 242, 0.4);
+  }
+}
