@@ -1,49 +1,85 @@
-import { useAppsStore } from "@/app/stores/useAppsStore";
-import { useWindowsStore } from "@/app/stores/useWindowsStore";
-import { App } from "@/ui/components/App/App";
-import { Button } from "@/ui/components/controls/Button/Button";
-import { Stack } from "@/ui/components/layout/Stack/Stack";
-import { Text } from "@/ui/components/typography/Text/Text";
-import { IconGridDots } from "@tabler/icons-react";
+import { useAppsStore } from "@/app/stores/useAppsStore"
+import { useWindowsStore } from "@/app/stores/useWindowsStore"
+import { App } from "@/ui/components/App/App"
+import { Button } from "@/ui/components/controls/Button/Button"
+import { Stack } from "@/ui/components/layout/Stack/Stack"
+import { IconGridDots } from "@tabler/icons-react"
+import styles from "./Desktop.module.scss"
+import { useState } from "react"
+import { Text } from "@/ui/components/typography/Text/Text"
+
+interface DateObject {
+  year: number
+  month: number
+  day: number
+  hours: number
+  minutes: number
+}
 
 export function TaskBar() {
-  const { apps, register } = useAppsStore()
+  const { apps } = useAppsStore()
   const { windows } = useWindowsStore()
-  const i = Math.floor(Math.random() * 2)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  console.log(windows);
-  console.log(apps);
-
+  const d = new Date()
+  const date: DateObject = {
+    year: d.getFullYear(),
+    month: d.getMonth() + 1,
+    day: d.getDate(),
+    hours: d.getHours(),
+    minutes: d.getMinutes(),
+  }
 
   return (
-    <Stack justify="between">
-      <Button onClick={() => (
-        register({
-          name: crypto.randomUUID(),
-          component: () => <Text>{crypto.randomUUID()}</Text>,
-          type: "normal",
-          description: "A",
-          icon: i === 0 ?
-            // Random apps images links for test
-            "https://th.bing.com/th?q=App+Icon+BG+Transparent&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=pt-BR&cc=BR&setlang=pt-br&adlt=moderate&t=1&mw=247"
-            : i === 1 ?
-              "https://th.bing.com/th?q=Apple+Store+App+Icon&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=pt-BR&cc=BR&setlang=pt-br&adlt=moderate&t=1&mw=247"
-              : i === 2 ? "https://th.bing.com/th?q=Google+Chrome+App+Icon&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=pt-BR&cc=BR&setlang=pt-br&adlt=moderate&t=1&mw=247" : ""
-        })
-      )}>Add window</Button>
+    <Stack className={styles.taskbar} justify="between" align="center" gap="lg">
+      <Stack gap="sm" align="center" className={styles.taskbarSide1}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <IconGridDots />
+        </Button>
 
-      <div>
-        <IconGridDots />
-        {apps.map(app =>
-          <App id={app.id} key={app.id} />
+        {menuOpen && (
+          <div className={styles.menu}>
+            {apps.map((app) => (
+              <App id={app.id} key={app.id} />
+            ))}
+          </div>
         )}
-      </div>
 
-      <div>
-        {windows.filter(w => w.state === "minimized").map(win =>
-          <App id={win.appId} key={win.appId} />
+        <Stack gap="xs">
+          {apps
+            .filter((app) => app.fixed)
+            .map((app) => (
+              <App variant="simplified" id={app.id} key={app.id} />
+            ))}
+        </Stack>
+
+        {windows.filter((w) => w.state === "minimized").length > 0 && (
+          <>
+            <div className={styles.horizontalDivider}></div>
+
+            <Stack gap="xs">
+              {windows
+                .filter((w) => w.state === "minimized")
+                .map((w) => (
+                  <App variant="simplified" id={w.appId} key={w.appId} />
+                ))}
+            </Stack>
+          </>
         )}
-      </div>
+      </Stack>
+
+      <Stack direction="column" gap="xs" align="end">
+        <Text size="sm">
+          {date.hours}:{date.minutes}
+        </Text>
+        <Text size="sm">
+          {date.month}/{date.day}/{date.year}
+        </Text>
+      </Stack>
     </Stack>
   )
 }

@@ -1,0 +1,43 @@
+.windowsContainer {
+  position: relative;
+  width: 100dvw;
+  height: calc(100dvh - 60px);
+  overflow: hidden;
+}
+
+.taskbar {
+  position: relative;
+  width: 100dvw;
+  height: 60px;
+  background: rgba(242, 242, 242, 0.2);
+  border-top: 1px solid rgba(242, 242, 242, 0.4);
+  padding: 0 32px;
+
+  .taskbarSide1 {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+
+    .menu {
+      position: absolute;
+      left: 50%;
+      bottom: 64px;
+      width: 372px;
+      height: 402px;
+      background: rgba(242, 242, 242, 0.1);
+      border: 1px solid rgba(242, 242, 242, 0.5);
+      border-radius: 16px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 16px 8px;
+      transform: translateX(-50%);
+    }
+  }
+
+  .horizontalDivider {
+    height: 43px;
+    border-left: 1px solid rgba(242, 242, 242, 0.4);
+  }
+}

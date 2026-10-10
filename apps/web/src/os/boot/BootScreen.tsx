@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Container } from "@ui/components/layout/Container/Container"
-import { Text } from "@ui/components/typography/Text/Text"
+import { Container } from "@/ui/components/layout/Container/Container"
+import { Text } from "@/ui/components/typography/Text/Text"
 import styles from "./BootScreen.module.scss"
 import { useNavigate } from "react-router-dom"
 

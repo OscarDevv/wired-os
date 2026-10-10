@@ -24,10 +24,7 @@
 
     /* Import alias */
     "paths": {
-      "@/*": ["./src/*"],
-      "@app/*": ["./src/app/*"],
-      "@os/*": ["./src/os/*"],
-      "@ui/*": ["./src/ui/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

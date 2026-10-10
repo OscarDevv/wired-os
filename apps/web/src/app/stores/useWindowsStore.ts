@@ -78,7 +78,7 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
     return get().windows.find((window) => window.id === id)
   },
   findByAppId(appId) {
-    return get().windows.find(window => window.appId === appId)
+    return get().windows.find((window) => window.appId === appId)
   },
 
   minimize(id) {
@@ -107,7 +107,7 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
                 size: window.size,
               },
               position: { x: 0, y: 0 },
-              size: { width: clientWidth, height: clientHeight },
+              size: { width: clientWidth, height: clientHeight - 60 },
             }
           : window,
       ),
