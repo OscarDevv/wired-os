@@ -1,6 +1,8 @@
 .windowsContainer {
+  position: relative;
   width: 100dvw;
-  height: calc(100dvh - 60px)
+  height: calc(100dvh - 60px);
+  overflow: hidden;
 }
 
 .taskbar {
