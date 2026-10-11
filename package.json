@@ -6,7 +6,7 @@
   "scripts": {
     "script:component": "tsx ./scripts/create-component.ts",
     "format": "prettier . --write",
-    "typecheck": "tsc -p apps/web/tsconfig.app.json --noEmit"
+    "typecheck": "tsc -p frontend/tsconfig.app.json --noEmit"
   },
   "keywords": [],
   "author": "",

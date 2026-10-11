@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import styles from "./Button.module.scss"
-import type { ButtonProps } from "./Button.types.ts"
+import type { ButtonProps } from "./Button.types"
 
 export function Button({
   variant = "default",

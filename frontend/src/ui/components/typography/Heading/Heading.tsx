@@ -1,5 +1,5 @@
 import styles from "./Heading.module.scss"
-import type { HeadingProps } from "./Heading.types.ts"
+import type { HeadingProps } from "./Heading.types"
 import clsx from "clsx"
 
 export function Heading({

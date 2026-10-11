@@ -1,10 +1,10 @@
 import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import styles from "./Window.module.scss"
-import type { WindowProps } from "./Window.types.ts"
+import type { WindowProps } from "./Window.types"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 import { Rnd } from "react-rnd"
-import { Stack } from "../layout/Stack/Stack.tsx"
-import { Heading } from "../typography/Heading/Heading.tsx"
+import { Stack } from "../layout/Stack/Stack"
+import { Heading } from "../typography/Heading/Heading"
 
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))

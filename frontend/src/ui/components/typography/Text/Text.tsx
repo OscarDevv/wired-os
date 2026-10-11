@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import styles from "./Text.module.scss"
-import type { TextProps } from "./Text.types.ts"
+import type { TextProps } from "./Text.types"
 
 export function Text({
   as = "p",

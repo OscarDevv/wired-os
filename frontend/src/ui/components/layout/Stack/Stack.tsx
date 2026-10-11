@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import styles from "./Stack.module.scss"
-import type { StackProps } from "./Stack.types.ts"
+import type { StackProps } from "./Stack.types"
 
 export function Stack({
   as = "div",

@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import styles from "./Container.module.scss"
-import type { ContainerProps } from "./Container.types.ts"
+import type { ContainerProps } from "./Container.types"
 
 export function Container({
   as = "div",
