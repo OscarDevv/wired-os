@@ -1,8 +1,8 @@
 import { useAppsStore } from "@/app/stores/useAppsStore.ts"
-import { Stack } from "../layout/Stack/Stack.tsx"
-import { Text } from "../typography/Text/Text.tsx"
+import { Stack } from "../layout/Stack/Stack.js"
+import { Text } from "../typography/Text/Text.js"
 import styles from "./App.module.scss"
-import type { AppProps } from "./App.types.ts"
+import type { AppProps } from "./App.types.js"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 
 export function App({ id, variant = "default" }: AppProps) {
