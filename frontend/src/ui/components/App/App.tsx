@@ -7,10 +7,9 @@ import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 
 export function App({ id, variant = "default" }: AppProps) {
   const app = useAppsStore().find(id)
+  const { open, findByAppId, restore } = useWindowsStore()
 
   if (!app) return null
-
-  const { open, findByAppId, restore } = useWindowsStore()
 
   function handleClick() {
     const window = findByAppId(id)

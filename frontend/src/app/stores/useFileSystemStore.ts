@@ -18,6 +18,9 @@ interface FSStore {
   ) => void
   renameFile: (id: string, name: string) => void
   deleteFile: (id: string) => void
+
+  getFocused: () => FSNode | undefined
+  focusNode: (id: string) => void
 }
 
 interface FSNodeTime {
@@ -34,6 +37,7 @@ interface FSNodeBase {
   name: string
   created: FSNodeTime
   updated: FSNodeTime
+  focused: boolean
 }
 
 interface FSFolder extends FSNodeBase {
@@ -182,6 +186,7 @@ function createFile(
             updated: now,
             content: "",
             type: "file",
+            focused: false,
           },
         ],
       }
@@ -232,6 +237,35 @@ function deleteFile(nodes: FSNode[], id: string): FSNode[] {
     })
 }
 
+function getFocused(nodes: FSNode[]): FSNode | undefined {
+  for (const node of nodes) {
+    if (node.focused) return node
+    if (node.type === "file") continue
+
+    const focused = getFocused(node.content)
+    if (focused) return focused
+  }
+
+  return undefined
+}
+
+function focusNode(nodes: FSNode[], id: string): FSNode[] {
+  return nodes.map((node): FSNode => {
+    if (node.type === "folder") {
+      return {
+        ...node,
+        focused: node.id === id,
+        content: focusNode(node.content, id),
+      }
+    }
+
+    return {
+      ...node,
+      focused: node.id === id,
+    }
+  })
+}
+
 export const useFileSystemStore = create<FSStore>((set, get) => ({
   root: [],
 
@@ -252,6 +286,7 @@ export const useFileSystemStore = create<FSStore>((set, get) => ({
             updated: now,
             type: "folder",
             content: [],
+            focused: false,
           },
         ],
       }))
@@ -301,6 +336,20 @@ export const useFileSystemStore = create<FSStore>((set, get) => ({
 
     set((state) => ({
       root: deleteFile(state.root, id),
+    }))
+  },
+
+  getFocused() {
+    return getFocused(get().root)
+  },
+
+  focusNode(id) {
+    const node = getFile(get().root, id) ?? getFolder(get().root, id)
+
+    if (!node) return
+
+    set((state) => ({
+      root: focusNode(state.root, id),
     }))
   },
 }))
