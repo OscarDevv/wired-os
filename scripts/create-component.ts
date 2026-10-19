@@ -53,8 +53,7 @@ cancel(customPath)
 
 const componentsPath = path.join(
   process.cwd(),
-  "apps",
-  "web",
+  "frontend",
   "src",
   "ui",
   "components",
