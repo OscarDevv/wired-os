@@ -63,7 +63,8 @@ export function File({ id }: FileProps) {
         <Text>{file.name}</Text>
         }
 
-        <div className={styles.fileMenu}>
+        {/* Temporary style so it doesn't appear in the UI */}
+        <div style={{ display:"none" }} className={styles.fileMenu}>
           <ul>
             <li onClick={() => setIsRenaming(true)}>Rename</li>
             <li onClick={() => setIsDeleting(true)}>Delete</li>
