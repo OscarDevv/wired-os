@@ -2,25 +2,13 @@ import { create } from "zustand"
 
 interface FSStore {
   root: FSNode[]
-
-  getFolder: (id: string) => FSFolder | undefined
-  createFolder: (
-    id: string | null,
-    data: Omit<FSFolder, "id" | "created" | "updated" | "type" | "content">,
-  ) => void
-  renameFolder: (id: string, name: string) => void
-  deleteFolder: (id: string) => void
-
-  getFile: (id: string) => FSFile | undefined
-  createFile: (
-    id: string,
-    data: Omit<FSFile, "id" | "created" | "updated" | "type" | "content">,
-  ) => void
-  renameFile: (id: string, name: string) => void
-  deleteFile: (id: string) => void
-
-  getFocused: () => FSNode | undefined
-  focusNode: (id: string) => void
+  focusedId: string | null
+  getNode: (id: string) => FSNode | undefined
+  createFolder: (id: string | null, name: string) => string
+  createFile: (id: string | null, name: string) => string
+  renameNode: (id: string, name: string) => string
+  deleteNode: (id: string) => string
+  focusNode: (id: string | null) => string | null
 }
 
 interface FSNodeTime {
@@ -37,20 +25,19 @@ interface FSNodeBase {
   name: string
   created: FSNodeTime
   updated: FSNodeTime
-  focused: boolean
 }
 
-interface FSFolder extends FSNodeBase {
+export interface FSFolder extends FSNodeBase {
   type: "folder"
   content: FSNode[]
 }
 
-interface FSFile extends FSNodeBase {
+export interface FSFile extends FSNodeBase {
   type: "file"
   content: string
 }
 
-type FSNode = FSFolder | FSFile
+export type FSNode = FSFolder | FSFile
 
 function currentDate(): FSNodeTime {
   const date = new Date()
@@ -65,291 +52,128 @@ function currentDate(): FSNodeTime {
   }
 }
 
-function getFolder(nodes: FSNode[], id: string): FSFolder | undefined {
+function findNode(nodes: FSNode[], id: string): FSNode | undefined {
   for (const node of nodes) {
-    if (node.type !== "folder") continue
     if (node.id === id) return node
-
-    const folder = getFolder(node.content, id)
-    if (folder) return folder
+    if (node.type === "folder") {
+      const found = findNode(node.content, id)
+      if (found) return found
+    }
   }
-
-  return undefined
 }
 
-function createFolder(
+function updateNode(
   nodes: FSNode[],
   id: string,
-  data: Omit<FSFolder, "id" | "created" | "updated" | "type" | "content">,
+  fn: (node: FSNode) => FSNode,
 ): FSNode[] {
   return nodes.map((node) => {
-    if (node.type !== "folder") return node
-
-    if (node.id === id) {
-      const now = currentDate()
-
-      return {
-        ...node,
-        content: [
-          ...node.content,
-          {
-            ...data,
-            id: crypto.randomUUID(),
-            created: now,
-            updated: now,
-            content: [],
-            type: "folder",
-          },
-        ],
-      }
-    }
-
-    return {
-      ...node,
-      content: createFolder(node.content, id, data),
-    }
-  })
-}
-
-function renameFolder(nodes: FSNode[], id: string, name: string): FSNode[] {
-  return nodes.map((node) => {
-    if (node.type !== "folder") return node
-
-    if (node.id === id) {
-      const now = currentDate()
-
-      return {
-        ...node,
-        name,
-        updated: now,
-      }
-    }
-
-    return {
-      ...node,
-      content: renameFolder(node.content, id, name),
-    }
-  })
-}
-
-function deleteFolder(nodes: FSNode[], id: string): FSNode[] {
-  return nodes
-    .filter((node) => {
-      return node.type !== "folder" || node.id !== id
-    })
-    .map((node) => {
-      if (node.type !== "folder") {
-        return node
-      }
-
-      return {
-        ...node,
-        content: deleteFolder(node.content, id),
-      }
-    })
-}
-
-function getFile(nodes: FSNode[], id: string): FSFile | undefined {
-  for (const node of nodes) {
-    if (node.type === "file") {
-      if (node.id === id) return node
-
-      continue
-    }
-
-    const file = getFile(node.content, id)
-    if (file) return file
-  }
-
-  return undefined
-}
-
-function createFile(
-  nodes: FSNode[],
-  id: string,
-  data: Omit<FSFile, "id" | "created" | "updated" | "type" | "content">,
-): FSNode[] {
-  return nodes.map((node) => {
-    if (node.type !== "folder") return node
-
-    if (node.id === id) {
-      const now = currentDate()
-
-      return {
-        ...node,
-        content: [
-          ...node.content,
-          {
-            ...data,
-            id: crypto.randomUUID(),
-            created: now,
-            updated: now,
-            content: "",
-            type: "file",
-            focused: false,
-          },
-        ],
-      }
-    }
-
-    return {
-      ...node,
-      content: createFile(node.content, id, data),
-    }
-  })
-}
-
-function renameFile(nodes: FSNode[], id: string, name: string): FSNode[] {
-  return nodes.map((node) => {
-    if (node.type === "file") {
-      if (node.id === id) {
-        const now = currentDate()
-
-        return {
-          ...node,
-          name,
-          updated: now,
-        }
-      }
-
-      return node
-    }
-
-    return {
-      ...node,
-      content: renameFile(node.content, id, name),
-    }
-  })
-}
-
-function deleteFile(nodes: FSNode[], id: string): FSNode[] {
-  return nodes
-    .filter((node) => {
-      return node.type !== "file" || node.id !== id
-    })
-    .map((node) => {
-      if (node.type !== "folder") return node
-
-      return {
-        ...node,
-        content: deleteFile(node.content, id),
-      }
-    })
-}
-
-function getFocused(nodes: FSNode[]): FSNode | undefined {
-  for (const node of nodes) {
-    if (node.focused) return node
-    if (node.type === "file") continue
-
-    const focused = getFocused(node.content)
-    if (focused) return focused
-  }
-
-  return undefined
-}
-
-function focusNode(nodes: FSNode[], id: string): FSNode[] {
-  return nodes.map((node): FSNode => {
+    if (node.id === id) return fn(node)
     if (node.type === "folder") {
       return {
         ...node,
-        focused: node.id === id,
-        content: focusNode(node.content, id),
+        content: updateNode(node.content, id, fn),
       }
     }
 
-    return {
-      ...node,
-      focused: node.id === id,
-    }
+    return node
   })
+}
+
+function removeNode(nodes: FSNode[], id: string): FSNode[] {
+  return nodes
+    .filter((node) => node.id !== id)
+    .map((node) =>
+      node.type === "folder"
+        ? { ...node, content: removeNode(node.content, id) }
+        : node,
+    )
+}
+
+function addChild(
+  nodes: FSNode[],
+  parentId: string | null,
+  child: FSNode,
+): FSNode[] {
+  if (parentId === null) return [...nodes, child]
+
+  return updateNode(nodes, parentId, (node) =>
+    node.type === "folder"
+      ? {
+          ...node,
+          content: [...node.content, child],
+        }
+      : node,
+  )
 }
 
 export const useFileSystemStore = create<FSStore>((set, get) => ({
   root: [],
+  focusedId: null,
 
-  getFolder(id) {
-    return getFolder(get().root, id)
+  getNode(id) {
+    return findNode(get().root, id)
   },
-  createFolder(id, data) {
-    if (id === null) {
-      const now = currentDate()
-
-      set((state) => ({
-        root: [
-          ...state.root,
-          {
-            id: crypto.randomUUID(),
-            name: data.name,
-            created: now,
-            updated: now,
-            type: "folder",
-            content: [],
-            focused: false,
-          },
-        ],
-      }))
-      return
-    }
-
-    if (!getFolder(get().root, id)) return
+  createFolder(id, name) {
+    const date = currentDate()
+    const childId = crypto.randomUUID()
 
     set((state) => ({
-      root: createFolder(state.root, id, data),
+      root: addChild(state.root, id, {
+        name,
+        id: childId,
+        created: date,
+        updated: date,
+        type: "folder",
+        content: [],
+      }),
     }))
+
+    return childId
   },
-  renameFolder(id, name) {
-    if (!getFolder(get().root, id)) return
+  createFile(id, name) {
+    const date = currentDate()
+    const childId = crypto.randomUUID()
 
     set((state) => ({
-      root: renameFolder(state.root, id, name),
+      root: addChild(state.root, id, {
+        name,
+        id: childId,
+        updated: date,
+        created: date,
+        type: "file",
+        content: "",
+      }),
     }))
-  },
-  deleteFolder(id) {
-    if (!getFolder(get().root, id)) return
 
+    return childId
+  },
+  renameNode(id, name) {
     set((state) => ({
-      root: deleteFolder(state.root, id),
+      root: updateNode(state.root, id, (node) => ({
+        ...node,
+        updated: currentDate(),
+        name,
+      })),
     }))
-  },
 
-  getFile(id) {
-    return getFile(get().root, id)
+    return id
   },
-  createFile(id, data) {
-    if (!getFolder(get().root, id)) return
+  deleteNode(id) {
+    set((state) => {
+      const root = removeNode(state.root, id)
+      const focusedId =
+        state.focusedId && findNode(root, state.focusedId)
+          ? state.focusedId
+          : null
 
-    set((state) => ({
-      root: createFile(state.root, id, data),
-    }))
+      return { root, focusedId }
+    })
+
+    return id
   },
-  renameFile(id, name) {
-    if (!getFile(get().root, id)) return
-
-    set((state) => ({
-      root: renameFile(state.root, id, name),
-    }))
-  },
-  deleteFile(id) {
-    if (!getFile(get().root, id)) return
-
-    set((state) => ({
-      root: deleteFile(state.root, id),
-    }))
-  },
-
-  getFocused() {
-    return getFocused(get().root)
-  },
-
   focusNode(id) {
-    const node = getFile(get().root, id) ?? getFolder(get().root, id)
-
-    if (!node) return
-
-    set((state) => ({
-      root: focusNode(state.root, id),
-    }))
+    set({ focusedId: id })
+    return id
   },
 }))
