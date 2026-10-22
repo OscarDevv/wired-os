@@ -4,13 +4,7 @@ import pc from "picocolors"
 import path from "node:path"
 import fs from "node:fs/promises"
 
-p.intro(
-  pc.bold(
-    pc.bgYellow("Wired OS Scripts") +
-      " • " +
-      pc.yellow("Creating a UI Component"),
-  ),
-)
+p.intro(pc.bold(pc.bgYellow("Wired OS Scripts") + " • " + pc.yellow("Creating a UI Component")))
 
 function cancel(value: unknown) {
   if (p.isCancel(value)) {
@@ -51,14 +45,7 @@ cancel(customPath)
 
 // Creating the files
 
-const componentsPath = path.join(
-  process.cwd(),
-  "apps",
-  "web",
-  "src",
-  "ui",
-  "components",
-)
+const componentsPath = path.join(process.cwd(), "apps", "web", "src", "ui", "components")
 
 const componentPath = path.join(
   componentsPath,

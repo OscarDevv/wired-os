@@ -37,32 +37,18 @@ export default function BootScreen() {
 
   return (
     <Container size="lg" className={styles.container}>
-      <Text
-        size="xl"
-        variant="terminal"
-        color="success"
-        className={styles.title}
-      >
+      <Text size="xl" variant="terminal" color="success" className={styles.title}>
         WiredOS
       </Text>
 
       {screenMessages.slice(0, msgIndex + 1).map((msg, index) => (
-        <Text
-          key={index}
-          className={styles.text}
-          variant="terminal"
-          color="success"
-        >
+        <Text key={index} className={styles.text} variant="terminal" color="success">
           {msg}
         </Text>
       ))}
 
       {msgIndex > screenMessages.length && (
-        <Text
-          className={styles.lastText}
-          variant="terminal-subtle"
-          color="success"
-        >
+        <Text className={styles.lastText} variant="terminal-subtle" color="success">
           WiredOS is ready. Going to homepage in 3 seconds...
         </Text>
       )}

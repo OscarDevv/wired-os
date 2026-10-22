@@ -33,11 +33,7 @@ export function App({ id, variant = "default" }: AppProps) {
       onClick={handleClick}
       data-variant={variant}
     >
-      <img
-        className={styles.icon}
-        src={app.icon}
-        alt={`${app.name} app icon`}
-      />
+      <img className={styles.icon} src={app.icon} alt={`${app.name} app icon`} />
 
       {variant === "default" && (
         <Text size="sm" className={styles.name}>

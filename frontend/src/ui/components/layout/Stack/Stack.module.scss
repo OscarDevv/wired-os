@@ -46,13 +46,7 @@ $stack-justify: "center", "start", "end", "around", "between", "evenly";
 
   @each $justify in $stack-justify {
     &[data-justify="#{$justify}"] {
-      @if $justify !=
-        "around" and
-        $justify !=
-        "between" and
-        $justify !=
-        "evenly"
-      {
+      @if $justify != "around" and $justify != "between" and $justify != "evenly" {
         justify-content: #{$justify};
       } @else {
         justify-content: space-#{$justify};
