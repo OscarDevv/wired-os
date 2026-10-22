@@ -12,11 +12,7 @@ export function Container({
   const Element = as
 
   return (
-    <Element
-      className={clsx(styles.container, className)}
-      data-size={size}
-      {...props}
-    >
+    <Element className={clsx(styles.container, className)} data-size={size} {...props}>
       {children}
     </Element>
   )

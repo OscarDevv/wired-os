@@ -48,37 +48,21 @@ export function Window({ windowId }: WindowProps) {
         dragHandleClassName="window__header"
       >
         <div className={styles.window}>
-          <Stack
-            className={`window__header ${styles.heading}`}
-            justify="between"
-          >
+          <Stack className={`window__header ${styles.heading}`} justify="between">
             <Stack gap="sm" align="center">
-              <img
-                src={app.icon}
-                alt={`${app.name} app icon`}
-                className={styles.icon}
-              />
+              <img src={app.icon} alt={`${app.name} app icon`} className={styles.icon} />
               <Heading level={6} className={styles.title}>
                 {app.name}
               </Heading>
             </Stack>
 
             <Stack gap="sm" className={styles.actions}>
-              <button
-                onClick={() => minimize(win.id)}
-                title="Minimize"
-              ></button>
+              <button onClick={() => minimize(win.id)} title="Minimize"></button>
 
               {win.state === "maximized" ? (
-                <button
-                  onClick={() => restore(win.id)}
-                  title="Restore"
-                ></button>
+                <button onClick={() => restore(win.id)} title="Restore"></button>
               ) : (
-                <button
-                  onClick={() => maximize(win.id)}
-                  title="Maximize"
-                ></button>
+                <button onClick={() => maximize(win.id)} title="Maximize"></button>
               )}
 
               <button onClick={() => close(win.id)} title="Close"></button>
