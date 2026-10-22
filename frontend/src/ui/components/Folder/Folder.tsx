@@ -1,119 +1,116 @@
 import { useFileSystemStore } from "@/app/stores/useFileSystemStore.ts"
 import styles from "./Folder.module.scss"
-import type { FolderProps } from "./Folder.types.ts"
+import type { FolderDialogs, FolderProps } from "./Folder.types.ts"
 import { Stack } from "../layout/Stack/Stack.tsx"
-import { useState, type SubmitEvent } from "react"
+import { useState } from "react"
 import { Text } from "../typography/Text/Text.tsx"
 import { Heading } from "../typography/Heading/Heading.tsx"
 import { Button } from "../controls/Button/Button.tsx"
+import { ContextMenu } from "../ContextMenu/ContextMenu.tsx"
+import { createPortal } from "react-dom"
+import { readName } from "./readName.ts"
+import { NameDialog } from "./NameDialog.tsx"
 
 export function Folder({ id }: FolderProps) {
-  const [isCreatingFile, setIsCreatingFile] = useState(false)
-  const [isCreatingFolder, setIsCreatingFolder] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [dialog, setDialog] = useState<FolderDialogs>(null)
   const [isRenaming, setIsRenaming] = useState(false)
 
-  const {
-    getFolder,
-    createFile,
-    createFolder,
-    deleteFolder,
-    focusNode,
-    renameFolder,
-  } = useFileSystemStore()
-  const folder = getFolder(id)
+  const folder = useFileSystemStore((s) => s.getNode(id))
+  const renameNode = useFileSystemStore((s) => s.renameNode)
+  const focusNode = useFileSystemStore((s) => s.focusNode)
+  const createFile = useFileSystemStore((s) => s.createFile)
+  const createFolder = useFileSystemStore((s) => s.createFolder)
+  const deleteNode = useFileSystemStore((s) => s.deleteNode)
 
   if (!folder) return null
 
-  function setNewFolderName(e: SubmitEvent<HTMLInputElement>) {
-    e.preventDefault()
-    setIsRenaming(false)
-    renameFolder(id, e.target.value)
-  }
-
   return (
     <>
-      <Stack
-        gap="md"
-        direction="column"
-        justify="center"
-        className={styles.folder}
-        onClick={() => focusNode(id)}
+      <ContextMenu
+        items={[
+          [
+            {
+              label: "Create File",
+              onClick: () => setDialog("createFile"),
+            },
+            {
+              label: "Create Folder",
+              onClick: () => setDialog("createFolder"),
+            },
+          ],
+          [
+            {
+              label: "Rename Folder",
+              onClick: () => setIsRenaming(true),
+            },
+            {
+              label: "Delete Folder",
+              onClick: () => setDialog("delete"),
+            },
+          ],
+        ]}
       >
-        <img src="/icons/folder.svg" alt="Folder icon" />
+        <Stack gap="md" className={styles.folder} onClick={() => focusNode(id)}>
+          <img src="/icons/folder.svg" alt="Folder icon" />
 
-        {isRenaming ? (
-          <input
-            onSubmit={setNewFolderName}
-            onBlur={() => setIsRenaming(false)}
-          />
-        ) : (
-          <Text>{folder.name}</Text>
+          {isRenaming ? (
+            <form
+              onSubmit={(e) => {
+                const name = readName(e)
+                if (name) renameNode(id, name)
+                setIsRenaming(false)
+              }}
+            >
+              <input
+                name="name"
+                defaultValue={folder.name}
+                autoFocus
+                required
+                onBlur={() => setIsRenaming(false)}
+              />
+            </form>
+          ) : (
+            <Text>{folder.name}</Text>
+          )}
+        </Stack>
+      </ContextMenu>
+
+      {dialog === "createFile" && (
+        <NameDialog
+          title="Creating a new file"
+          onSubmit={(name) => {
+            createFile(id, name)
+            setDialog(null)
+          }}
+          onCancel={() => setDialog(null)}
+        />
+      )}
+
+      {dialog === "createFolder" && (
+        <NameDialog
+          title="Creating a new folder"
+          onSubmit={(name) => {
+            createFolder(id, name)
+            setDialog(null)
+          }}
+          onCancel={() => setDialog(null)}
+        />
+      )}
+
+      {dialog === "delete" &&
+        createPortal(
+          <div>
+            <Heading>Deleting folder</Heading>
+            <Text size="lg">
+              Are you sure you want to delete {folder.name}?
+            </Text>
+            <Text>This action is not reversible.</Text>
+
+            <Button onClick={() => deleteNode(id)}>Delete folder</Button>
+            <Button onClick={() => setDialog(null)}>Cancel</Button>
+          </div>,
+          document.body,
         )}
-
-        <div className={styles.folderMenu}>
-          <ul>
-            <li onClick={() => setIsCreatingFile(true)}>Create file</li>
-            <li onClick={() => setIsCreatingFolder(true)}>Create folder</li>
-            <li onClick={() => setIsDeleting(true)}>Delete folder</li>
-            <li onClick={() => setIsRenaming(true)}>Rename folder</li>
-          </ul>
-        </div>
-      </Stack>
-
-      {isCreatingFile && (
-        <div>
-          <Heading>Creating a new file</Heading>
-
-          <Text>Type the new file name:</Text>
-          <input
-            required={true}
-            onSubmit={(e) =>
-              createFile(id, {
-                name: e.target.value,
-                focused: false,
-              })
-            }
-          />
-        </div>
-      )}
-
-      {isCreatingFolder && (
-        <div>
-          <Heading>Creating a new folder</Heading>
-
-          <Text>Type the new folder name:</Text>
-          <input
-            required={true}
-            onSubmit={(e) => {
-              createFolder(id, {
-                name: e.target.value,
-                focused: false,
-              })
-            }}
-          />
-        </div>
-      )}
-
-      {isDeleting && (
-        <Heading>
-          <Heading>Deleting folder</Heading>
-          <Text size="lg">Are you sure you want to delete {folder.name}?</Text>
-          <Text>This action is not reversible.</Text>
-
-          <Button onClick={() => deleteFolder(id)}>Delete file</Button>
-          <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
-        </Heading>
-      )}
-
-      {isRenaming && (
-        <div>
-          <Heading>Renaming folder</Heading>
-          <Text>Type the new folder name:</Text>
-
-          <input required={true} onSubmit={setNewFolderName} />
-        </div>
-      )}
     </>
   )
 }

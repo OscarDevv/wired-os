@@ -3,8 +3,11 @@ import styles from "./File.module.scss"
 import type { FileProps } from "./File.types.ts"
 import { Stack } from "../layout/Stack/Stack.tsx"
 import { Text } from "../typography/Text/Text.tsx"
-import { useState, type SubmitEvent } from "react"
+import { useState } from "react"
 import { Button } from "../controls/Button/Button.tsx"
+import { ContextMenu } from "../ContextMenu/ContextMenu.tsx"
+import { readName } from "../Folder/readName.ts"
+import { createPortal } from "react-dom"
 
 const FILE_ICONS: Record<string, string> = {
   txt: "document.svg",
@@ -14,73 +17,84 @@ const FILE_ICONS: Record<string, string> = {
   png: "image.svg",
   jpg: "image.svg",
   jpeg: "image.svg",
-  md: "markdown.svg"
+  md: "markdown.svg",
 }
 
-function getIcon(type: string): string {
-  for (const key in FILE_ICONS){
-    if (!Object.hasOwn(FILE_ICONS, key)) continue
+function getExtension(name: string): string {
+  const i = name.lastIndexOf(".")
+  return i > 0 ? name.slice(i + 1).toLowerCase() : ""
+}
 
-    const element = FILE_ICONS[key]
-    if (type === key) {
-      return `/icons/${element}`
-    }
-  }
-
-  return `/icons/document.svg`
+function getIcon(ext: string): string {
+  const icon = Object.hasOwn(FILE_ICONS, ext) ? FILE_ICONS[ext] : "document.svg"
+  return `/icons/${icon}`
 }
 
 export function File({ id }: FileProps) {
   const [isRenaming, setIsRenaming] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  const { getFile, focusNode, renameFile, deleteFile } = useFileSystemStore()
-  const file = getFile(id)
+  const file = useFileSystemStore((s) => s.getNode(id))
+  const focusNode = useFileSystemStore((s) => s.focusNode)
+  const renameNode = useFileSystemStore((s) => s.renameNode)
+  const deleteNode = useFileSystemStore((s) => s.deleteNode)
 
   if (!file) return null
 
-  const fileType = file.name.split(".").at(-1)
-
-  if (!fileType) {
-    renameFile(file.id, `${file.name}.txt`)
-  }
-
-  const fileIconPath = getIcon(fileType!);
-
-  function setNewFileName(e: SubmitEvent<HTMLInputElement>) {
-    e.preventDefault()
-    setIsRenaming(false)
-    renameFile(id, e.target.value)
-  }
+  const ext = getExtension(file.name)
 
   return (
     <>
-      <Stack gap="md" direction="column" justify="center" className={styles.file} onClick={() => focusNode(id)}>
-        <img src={fileIconPath} alt={`${fileType} icon`} />
+      <ContextMenu
+        items={[
+          [
+            {
+              label: "Rename File",
+              onClick: () => setIsRenaming(true),
+            },
+            {
+              label: "Delete File",
+              onClick: () => setIsDeleting(true),
+            },
+          ],
+        ]}
+      >
+        <Stack gap="md" className={styles.file} onClick={() => focusNode(id)}>
+          <img src={getIcon(ext)} alt={`${ext || "text"} icon`} />
 
-        {isRenaming ? <input onSubmit={setNewFileName} onBlur={() => setIsRenaming(false)} /> :
+          {isRenaming ? (
+            <form
+              onSubmit={(e) => {
+                const name = readName(e)
+                if (name) renameNode(id, name)
+                setIsRenaming(false)
+              }}
+            >
+              <input
+                name="name"
+                defaultValue={file.name}
+                autoFocus
+                required
+                onBlur={() => setIsRenaming(false)}
+              />
+            </form>
+          ) : (
+            <Text>{file.name}</Text>
+          )}
+        </Stack>
+      </ContextMenu>
 
-        <Text>{file.name}</Text>
-        }
+      {isDeleting &&
+        createPortal(
+          <div>
+            <Text size="lg">Are you sure you want to delete {file.name}?</Text>
+            <Text>This action is not reversible.</Text>
 
-        {/* Temporary style so it doesn't appear in the UI */}
-        <div style={{ display:"none" }} className={styles.fileMenu}>
-          <ul>
-            <li onClick={() => setIsRenaming(true)}>Rename</li>
-            <li onClick={() => setIsDeleting(true)}>Delete</li>
-          </ul>
-        </div>
-      </Stack>
-
-      {isDeleting && (
-        <div>
-          <Text size="lg">Are you sure you want to delete {file.name}?</Text>
-          <Text>This action is not reversible.</Text>
-
-          <Button onClick={() => deleteFile(id)}>Delete file</Button>
-          <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
-        </div>
-      )}
+            <Button onClick={() => deleteNode(id)}>Delete file</Button>
+            <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
+          </div>,
+          document.body,
+        )}
     </>
   )
 }
