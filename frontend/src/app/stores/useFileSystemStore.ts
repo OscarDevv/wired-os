@@ -62,11 +62,7 @@ function findNode(nodes: FSNode[], id: string): FSNode | undefined {
   }
 }
 
-function updateNode(
-  nodes: FSNode[],
-  id: string,
-  fn: (node: FSNode) => FSNode,
-): FSNode[] {
+function updateNode(nodes: FSNode[], id: string, fn: (node: FSNode) => FSNode): FSNode[] {
   return nodes.map((node) => {
     if (node.id === id) return fn(node)
     if (node.type === "folder") {
@@ -84,17 +80,11 @@ function removeNode(nodes: FSNode[], id: string): FSNode[] {
   return nodes
     .filter((node) => node.id !== id)
     .map((node) =>
-      node.type === "folder"
-        ? { ...node, content: removeNode(node.content, id) }
-        : node,
+      node.type === "folder" ? { ...node, content: removeNode(node.content, id) } : node,
     )
 }
 
-function addChild(
-  nodes: FSNode[],
-  parentId: string | null,
-  child: FSNode,
-): FSNode[] {
+function addChild(nodes: FSNode[], parentId: string | null, child: FSNode): FSNode[] {
   if (parentId === null) return [...nodes, child]
 
   return updateNode(nodes, parentId, (node) =>
@@ -162,10 +152,7 @@ export const useFileSystemStore = create<FSStore>((set, get) => ({
   deleteNode(id) {
     set((state) => {
       const root = removeNode(state.root, id)
-      const focusedId =
-        state.focusedId && findNode(root, state.focusedId)
-          ? state.focusedId
-          : null
+      const focusedId = state.focusedId && findNode(root, state.focusedId) ? state.focusedId : null
 
       return { root, focusedId }
     })

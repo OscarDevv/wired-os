@@ -5,11 +5,7 @@ import { Button } from "../controls/Button/Button"
 import { Text } from "../typography/Text/Text"
 import { readName } from "./readName"
 
-export function NameDialog({
-  title,
-  onSubmit,
-  onCancel,
-}: FolderNameDialogProps) {
+export function NameDialog({ title, onSubmit, onCancel }: FolderNameDialogProps) {
   return createPortal(
     <div>
       <Heading>{title}</Heading>

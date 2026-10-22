@@ -101,9 +101,7 @@ export function Folder({ id }: FolderProps) {
         createPortal(
           <div>
             <Heading>Deleting folder</Heading>
-            <Text size="lg">
-              Are you sure you want to delete {folder.name}?
-            </Text>
+            <Text size="lg">Are you sure you want to delete {folder.name}?</Text>
             <Text>This action is not reversible.</Text>
 
             <Button onClick={() => deleteNode(id)}>Delete folder</Button>

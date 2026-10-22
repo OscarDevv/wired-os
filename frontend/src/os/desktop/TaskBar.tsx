@@ -33,11 +33,7 @@ export function TaskBar() {
   return (
     <Stack className={styles.taskbar} justify="between" align="center" gap="lg">
       <Stack gap="sm" align="center" className={styles.taskbarSide1}>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setMenuOpen((prev) => !prev)}
-        >
+        <Button variant="outline" size="sm" onClick={() => setMenuOpen((prev) => !prev)}>
           <IconGridDots />
         </Button>
 
