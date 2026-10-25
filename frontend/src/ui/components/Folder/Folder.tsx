@@ -11,7 +11,7 @@ import { createPortal } from "react-dom"
 import { readName } from "./readName.ts"
 import { NameDialog } from "./NameDialog.tsx"
 
-export function Folder({ id }: FolderProps) {
+export function Folder({ id, onOpen }: FolderProps) {
   const [dialog, setDialog] = useState<FolderDialogs>(null)
   const [isRenaming, setIsRenaming] = useState(false)
 
@@ -50,7 +50,7 @@ export function Folder({ id }: FolderProps) {
           ],
         ]}
       >
-        <Stack gap="md" className={styles.folder} onClick={() => focusNode(id)}>
+        <Stack gap="md" className={styles.folder} onClick={() => focusNode(id)} onDoubleClick={onOpen}>
           <img src="/icons/folder.svg" alt="Folder icon" />
 
           {isRenaming ? (

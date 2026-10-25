@@ -6,6 +6,7 @@ import { Button } from "@/ui/components/controls/Button/Button"
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { Text } from "@/ui/components/typography/Text/Text"
 import { useEffect, useState } from "react"
+import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorer"
 
 export default function DesktopScreen() {
   const { windows } = useWindowsStore()
@@ -22,6 +23,8 @@ export default function DesktopScreen() {
 
   return (
     <>
+      <FileExplorerInitializer />
+
       <div className={styles.windowsContainer}>
         {windows.map((w) => (
           <Window windowId={w.id} />

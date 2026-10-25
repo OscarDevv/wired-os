@@ -86,7 +86,7 @@ export function File({ id }: FileProps) {
 
       {isDeleting &&
         createPortal(
-          <div>
+          <div className={styles.modal}>
             <Text size="lg">Are you sure you want to delete {file.name}?</Text>
             <Text>This action is not reversible.</Text>
 

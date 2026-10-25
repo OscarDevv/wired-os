@@ -1,3 +1,10 @@
-.File {
-  color: red;
+.file {
+  z-index: 9999;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
