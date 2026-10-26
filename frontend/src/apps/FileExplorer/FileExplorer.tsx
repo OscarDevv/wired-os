@@ -11,13 +11,13 @@ import { NodeList } from "./NodeList"
 import styles from "./FileExplorer.module.scss"
 
 function FileExplorer() {
-  const createFile = useFileSystemStore(s => s.createFile)
-  const createFolder = useFileSystemStore(s => s.createFolder)
-  const deleteNode = useFileSystemStore(s => s.deleteNode)
-  const focusedId = useFileSystemStore(s => s.focusedId)
-  const getNode = useFileSystemStore(s => s.getNode)
-  const root = useFileSystemStore(s => s.root)
-  const focusNode = useFileSystemStore(s => s.focusNode)
+  const createFile = useFileSystemStore((s) => s.createFile)
+  const createFolder = useFileSystemStore((s) => s.createFolder)
+  const deleteNode = useFileSystemStore((s) => s.deleteNode)
+  const focusedId = useFileSystemStore((s) => s.focusedId)
+  const getNode = useFileSystemStore((s) => s.getNode)
+  const root = useFileSystemStore((s) => s.root)
+  const focusNode = useFileSystemStore((s) => s.focusNode)
 
   const [isDeleting, setIsDeleting] = useState(false)
   const [path, setPath] = useState<string[]>([])
@@ -36,12 +36,12 @@ function FileExplorer() {
   }, [currentId, currentFolder])
 
   function openFolder(id: string) {
-    setPath(p => [...p, id])
+    setPath((p) => [...p, id])
     focusNode(null)
   }
 
   function goBack() {
-    setPath(p => p.slice(0, -1))
+    setPath((p) => p.slice(0, -1))
     focusNode(null)
   }
 
@@ -77,33 +77,42 @@ function FileExplorer() {
           </Button>
         </Stack>
 
-        <Text size="md" variant="terminal">/{currentFolder?.name ?? ""}</Text>
+        <Text size="md" variant="terminal">
+          /{currentFolder?.name ?? ""}
+        </Text>
 
         <main>
           <NodeList nodes={nodes} onOpenFolder={openFolder} />
         </main>
       </Stack>
 
-      {isDeleting && createPortal(
-        <div>
-          <Heading>Deleting {selectedNode?.type} {selectedNode?.name}</Heading>
-          <Text size={"lg"}>Are you sure you want to delete {selectedNode?.name}?</Text>
-          <Text>This action is not reversible.</Text>
+      {isDeleting &&
+        createPortal(
+          <div>
+            <Heading>
+              Deleting {selectedNode?.type} {selectedNode?.name}
+            </Heading>
+            <Text size={"lg"}>Are you sure you want to delete {selectedNode?.name}?</Text>
+            <Text>This action is not reversible.</Text>
 
-          <Button onClick={() => {
-            setIsDeleting(false)
-            deleteNode(focusedId || "")
-          }}>Delete</Button>
-          <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
-        </div>,
-        document.body
-      )}
+            <Button
+              onClick={() => {
+                setIsDeleting(false)
+                deleteNode(focusedId || "")
+              }}
+            >
+              Delete
+            </Button>
+            <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
+          </div>,
+          document.body,
+        )}
     </>
   )
 }
 
 export function FileExplorerInitializer() {
-  const register = useAppsStore(s => s.register)
+  const register = useAppsStore((s) => s.register)
 
   useEffect(() => {
     register({
@@ -112,7 +121,7 @@ export function FileExplorerInitializer() {
       fixed: true,
       icon: "", // Temporary iconless
       type: "system",
-      description: "Browse your files"
+      description: "Browse your files",
     })
   }, [register])
 

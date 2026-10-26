@@ -21,15 +21,15 @@ export function TaskBar() {
   const { windows } = useWindowsStore()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const [d, setD] = useState(() => new Date());
+  const [d, setD] = useState(() => new Date())
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setD(new Date());
-    }, 1000);
+      setD(new Date())
+    }, 1000)
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   const date: DateObject = {
     year: d.getFullYear(),

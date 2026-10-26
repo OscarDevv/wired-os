@@ -59,7 +59,13 @@ export function File({ id }: FileProps) {
           ],
         ]}
       >
-        <Stack gap="sm" direction="column" align="center" className={styles.file} onClick={() => focusNode(id)}>
+        <Stack
+          gap="sm"
+          direction="column"
+          align="center"
+          className={styles.file}
+          onClick={() => focusNode(id)}
+        >
           <img src={getIcon(ext)} alt={`${ext || "text"} icon`} className={styles.icon} />
 
           {isRenaming ? (

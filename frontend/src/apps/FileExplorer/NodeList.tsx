@@ -1,7 +1,7 @@
-import { type FSNode } from "@/app/stores/useFileSystemStore";
-import { File } from "@/ui/components/File/File";
-import { Folder } from "@/ui/components/Folder/Folder";
-import { Stack } from "@/ui/components/layout/Stack/Stack";
+import { type FSNode } from "@/app/stores/useFileSystemStore"
+import { File } from "@/ui/components/File/File"
+import { Folder } from "@/ui/components/Folder/Folder"
+import { Stack } from "@/ui/components/layout/Stack/Stack"
 import styles from "./FileExplorer.module.scss"
 
 interface NodeListProps {

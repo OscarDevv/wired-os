@@ -50,7 +50,14 @@ export function Folder({ id, onOpen }: FolderProps) {
           ],
         ]}
       >
-        <Stack gap="sm" direction="column" align="center" className={styles.folder} onClick={() => focusNode(id)} onDoubleClick={onOpen}>
+        <Stack
+          gap="sm"
+          direction="column"
+          align="center"
+          className={styles.folder}
+          onClick={() => focusNode(id)}
+          onDoubleClick={onOpen}
+        >
           <img src="/icons/folder.svg" alt="Folder icon" className={styles.icon} />
 
           {isRenaming ? (
