@@ -59,8 +59,8 @@ export function File({ id }: FileProps) {
           ],
         ]}
       >
-        <Stack gap="md" className={styles.file} onClick={() => focusNode(id)}>
-          <img src={getIcon(ext)} alt={`${ext || "text"} icon`} />
+        <Stack gap="sm" direction="column" align="center" className={styles.file} onClick={() => focusNode(id)}>
+          <img src={getIcon(ext)} alt={`${ext || "text"} icon`} className={styles.icon} />
 
           {isRenaming ? (
             <form
@@ -76,10 +76,11 @@ export function File({ id }: FileProps) {
                 autoFocus
                 required
                 onBlur={() => setIsRenaming(false)}
+                className={styles.input}
               />
             </form>
           ) : (
-            <Text>{file.name}</Text>
+            <Text className={styles.name}>{file.name}</Text>
           )}
         </Stack>
       </ContextMenu>

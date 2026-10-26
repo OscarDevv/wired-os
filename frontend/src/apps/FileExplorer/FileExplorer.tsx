@@ -8,6 +8,7 @@ import { IconArrowLeft, IconPlus, IconTrash } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { NodeList } from "./NodeList"
+import styles from "./FileExplorer.module.scss"
 
 function FileExplorer() {
   const createFile = useFileSystemStore(s => s.createFile)
@@ -53,33 +54,35 @@ function FileExplorer() {
 
   return (
     <>
-      <Stack gap="md">
-        <Button onClick={goBack} disabled={path.length === 0}>
-          <IconArrowLeft />
-          <Text>Back</Text>
-        </Button>
+      <Stack className={styles.container} direction="column">
+        <Stack gap="xs" className={styles.header}>
+          <Button size="xs" onClick={goBack} disabled={path.length === 0}>
+            <IconArrowLeft />
+            <Text>Back</Text>
+          </Button>
 
-        <Button onClick={() => handleCreateNode("file")}>
-          <IconPlus />
-          <Text>Create new file</Text>
-        </Button>
+          <Button size="xs" onClick={() => handleCreateNode("file")}>
+            <IconPlus />
+            <Text>Create new file</Text>
+          </Button>
 
-        <Button onClick={() => handleCreateNode("folder")}>
-          <IconPlus />
-          <Text>Create new folder</Text>
-        </Button>
+          <Button size="xs" onClick={() => handleCreateNode("folder")}>
+            <IconPlus />
+            <Text>Create new folder</Text>
+          </Button>
 
-        <Button onClick={() => setIsDeleting(true)} disabled={!selectedNode}>
-          <IconTrash />
-          <Text>Delete</Text>
-        </Button>
+          <Button size="xs" onClick={() => setIsDeleting(true)} disabled={!selectedNode}>
+            <IconTrash />
+            <Text>Delete</Text>
+          </Button>
+        </Stack>
+
+        <Text size="md" variant="terminal">/{currentFolder?.name ?? ""}</Text>
+
+        <main>
+          <NodeList nodes={nodes} onOpenFolder={openFolder} />
+        </main>
       </Stack>
-
-      <Text size="sm">/{currentFolder?.name ?? ""}</Text>
-
-      <main>
-        <NodeList nodes={nodes} onOpenFolder={openFolder} />
-      </main>
 
       {isDeleting && createPortal(
         <div>

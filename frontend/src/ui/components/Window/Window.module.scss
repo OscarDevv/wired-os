@@ -1,11 +1,15 @@
 .window {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #2a2a2a;
   border-radius: 8px;
   overflow: hidden;
   height: 100%;
+  min-height: 0;
   background: #070707;
 
   .heading {
+    flex-shrink: 0;
     background: #2a2a2a;
     margin: 4px;
     padding: 10px 12px;
@@ -54,5 +58,11 @@
         }
       }
     }
+  }
+
+  > main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
 }

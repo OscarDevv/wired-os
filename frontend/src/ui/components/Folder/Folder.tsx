@@ -50,8 +50,8 @@ export function Folder({ id, onOpen }: FolderProps) {
           ],
         ]}
       >
-        <Stack gap="md" className={styles.folder} onClick={() => focusNode(id)} onDoubleClick={onOpen}>
-          <img src="/icons/folder.svg" alt="Folder icon" />
+        <Stack gap="sm" direction="column" align="center" className={styles.folder} onClick={() => focusNode(id)} onDoubleClick={onOpen}>
+          <img src="/icons/folder.svg" alt="Folder icon" className={styles.icon} />
 
           {isRenaming ? (
             <form
@@ -67,10 +67,11 @@ export function Folder({ id, onOpen }: FolderProps) {
                 autoFocus
                 required
                 onBlur={() => setIsRenaming(false)}
+                className={styles.input}
               />
             </form>
           ) : (
-            <Text>{folder.name}</Text>
+            <Text className={styles.name}>{folder.name}</Text>
           )}
         </Stack>
       </ContextMenu>
@@ -99,7 +100,7 @@ export function Folder({ id, onOpen }: FolderProps) {
 
       {dialog === "delete" &&
         createPortal(
-          <div>
+          <div className={styles.modal}>
             <Heading>Deleting folder</Heading>
             <Text size="lg">Are you sure you want to delete {folder.name}?</Text>
             <Text>This action is not reversible.</Text>
