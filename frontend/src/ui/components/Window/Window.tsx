@@ -9,10 +9,10 @@ import { Heading } from "../typography/Heading/Heading"
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
   const app = useAppsStore((s) => s.apps.find((a) => a.id === win?.appId))
+  const { move, resize, minimize, maximize, restore, close } = useWindowsStore()
 
   if (!app || !win) return null
 
-  const { move, resize, minimize, maximize, restore, close } = useWindowsStore()
   const Component = app.component
 
   if (win.state === "minimized") return null

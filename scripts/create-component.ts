@@ -45,7 +45,7 @@ cancel(customPath)
 
 // Creating the files
 
-const componentsPath = path.join(process.cwd(), "apps", "web", "src", "ui", "components")
+const componentsPath = path.join(process.cwd(), "frontend", "src", "ui", "components")
 
 const componentPath = path.join(
   componentsPath,

@@ -5,7 +5,7 @@ import { Button } from "@/ui/components/controls/Button/Button"
 import { Stack } from "@/ui/components/layout/Stack/Stack"
 import { IconGridDots } from "@tabler/icons-react"
 import styles from "./Desktop.module.scss"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Text } from "@/ui/components/typography/Text/Text"
 
 interface DateObject {
@@ -21,7 +21,16 @@ export function TaskBar() {
   const { windows } = useWindowsStore()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const d = new Date()
+  const [d, setD] = useState(() => new Date())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setD(new Date())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   const date: DateObject = {
     year: d.getFullYear(),
     month: d.getMonth() + 1,

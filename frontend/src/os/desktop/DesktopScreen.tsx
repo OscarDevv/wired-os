@@ -5,14 +5,26 @@ import styles from "./Desktop.module.scss"
 import { Button } from "@/ui/components/controls/Button/Button"
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { Text } from "@/ui/components/typography/Text/Text"
+import { useEffect, useState } from "react"
+import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorer"
 
 export default function DesktopScreen() {
   const { windows } = useWindowsStore()
   const { register } = useAppsStore()
-  const i = Math.floor(Math.random() * 2)
+  const [i, setI] = useState(() => Math.floor(Math.random() * 2))
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setI(Math.floor(Math.random() * 2))
+    }, 1000)
+
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <>
+      <FileExplorerInitializer />
+
       <div className={styles.windowsContainer}>
         {windows.map((w) => (
           <Window windowId={w.id} />
