@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { Highlight, HStack, Kbd, Progress, Text } from "@chakra-ui/react"
-import { Box, Heading } from "@chakra-ui/react"
+import { Highlight, HStack, Kbd, Progress, Text, Box, Heading } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
+import { useKeyboard } from "@/hooks/useKeyboard"
 
 const screenMessages: string[] = [
   "[INFO] Made by Oscar",
@@ -18,14 +18,6 @@ export default function BootScreen() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (msgIndex > screenMessages.length) {
-      const timeout = setTimeout(() => {
-        navigate("/home")
-      }, 3000)
-
-      return () => clearTimeout(timeout)
-    }
-
     const startsWithInfo = screenMessages[msgIndex]?.startsWith("[INFO]")
 
     const timeout = setTimeout(
@@ -39,6 +31,12 @@ export default function BootScreen() {
   }, [msgIndex, navigate])
 
   const progress = Math.min((msgIndex / screenMessages.length) * 100, 100)
+
+  useKeyboard((event: KeyboardEvent) => {
+    if (progress === 100 && event.code === "Space") {
+      navigate("/home")
+    }
+  })
 
   return (
     <Box p={8} fontFamily="pMono">
