@@ -1,12 +1,13 @@
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { TaskBar } from "./TaskBar"
 import { Window } from "@/ui/components/Window/Window"
-import styles from "./Desktop.module.scss"
-import { Button } from "@/ui/components/controls/Button/Button"
+//import styles from "./Desktop.module.scss"
+import { Button } from "@chakra-ui/react"
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { Text } from "@/ui/components/typography/Text/Text"
 import { useEffect, useState } from "react"
 import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorer"
+import { Box } from "@chakra-ui/react"
 
 export default function DesktopScreen() {
   const { windows } = useWindowsStore()
@@ -25,11 +26,11 @@ export default function DesktopScreen() {
     <>
       <FileExplorerInitializer />
 
-      <div className={styles.windowsContainer}>
+      <Box h="calc(100dvh - 60px)">
         {windows.map((w) => (
           <Window windowId={w.id} />
         ))}
-      </div>
+      </Box>
 
       <Button
         style={{ position: "fixed", top: "0", left: "0" }}

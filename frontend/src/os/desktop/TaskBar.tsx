@@ -1,12 +1,9 @@
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { App } from "@/ui/components/App/App"
-import { Button } from "@/ui/components/controls/Button/Button"
-import { Stack } from "@/ui/components/layout/Stack/Stack"
+import { Box, Grid, IconButton, Popover, Portal, Stack, Text, HStack } from "@chakra-ui/react"
 import { IconGridDots } from "@tabler/icons-react"
-import styles from "./Desktop.module.scss"
 import { useEffect, useState } from "react"
-import { Text } from "@/ui/components/typography/Text/Text"
 
 interface DateObject {
   year: number
@@ -19,7 +16,6 @@ interface DateObject {
 export function TaskBar() {
   const { apps } = useAppsStore()
   const { windows } = useWindowsStore()
-  const [menuOpen, setMenuOpen] = useState(false)
 
   const [d, setD] = useState(() => new Date())
 
@@ -40,51 +36,109 @@ export function TaskBar() {
   }
 
   return (
-    <Stack className={styles.taskbar} justify="between" align="center" gap="lg">
-      <Stack gap="sm" align="center" className={styles.taskbarSide1}>
-        <Button variant="outline" size="sm" onClick={() => setMenuOpen((prev) => !prev)}>
-          <IconGridDots />
-        </Button>
+    <HStack
+      position="fixed"
+      bottom={0}
+      left={0}
+      w="100%"
+      justify="space-between"
+      px={8}
+      h="60px"
+      bg="gray.900"
+      borderTop="1px solid {colors.gray.700}"
+    >
+      <HStack gap="16px" align="center">
+        <Popover.Root lazyMount size="lg">
+          <Popover.Trigger asChild>
+            <IconButton
+              variant="outline"
+              color="gray.200"
+              borderColor="gray.700"
+              bg="transparent"
+              _hover={{
+                bg: "gray.800",
+              }}
+              aria-label="Open menu"
+            >
+              <IconGridDots />
+            </IconButton>
+          </Popover.Trigger>
 
-        {menuOpen && (
-          <div className={styles.menu}>
-            {apps.map((app) => (
-              <App id={app.id} key={app.id} />
-            ))}
-          </div>
-        )}
+          <Portal>
+            <Popover.Positioner>
+              <Popover.Content
+                bg="gray.900"
+                border="1px solid {colors.gray.700}"
+                css={{
+                  "--popover-bg": "colors.gray.900",
+                  "&::-webkit-scrollbar": {
+                    w: "6px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    bg: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    bg: "gray.600",
+                    borderRadius: "full",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    bg: "gray.600",
+                  },
+                }}
+                maxH="350px"
+                overflowY="auto"
+              >
+                <Popover.Arrow>
+                  <Popover.ArrowTip borderColor="gray.700" />
+                </Popover.Arrow>
 
-        <Stack gap="xs">
+                <Popover.Body>
+                  <Popover.Title color="whiteAlpha.800" mb={4}>
+                    Apps Menu
+                  </Popover.Title>
+
+                  <Grid templateColumns="repeat(3, 1fr)" gap="8px">
+                    {apps.map((app) => (
+                      <App id={app.id} key={app.id} />
+                    ))}
+                  </Grid>
+                </Popover.Body>
+              </Popover.Content>
+            </Popover.Positioner>
+          </Portal>
+        </Popover.Root>
+
+        <HStack gap="8px">
           {apps
             .filter((app) => app.fixed)
             .map((app) => (
               <App variant="simplified" id={app.id} key={app.id} />
             ))}
-        </Stack>
+        </HStack>
 
         {windows.filter((w) => w.state === "minimized").length > 0 && (
           <>
-            <div className={styles.horizontalDivider}></div>
+            <Box borderLeft="1px solid {colors.gray.700}" h="35px"></Box>
 
-            <Stack gap="xs">
+            <HStack gap="8px">
               {windows
                 .filter((w) => w.state === "minimized")
                 .map((w) => (
                   <App variant="simplified" id={w.appId} key={w.appId} />
                 ))}
-            </Stack>
+            </HStack>
           </>
         )}
-      </Stack>
+      </HStack>
 
-      <Stack direction="column" gap="xs" align="end">
-        <Text size="sm">
+      <Stack gap="xs" align="flex-end" color="whiteAlpha.800">
+        <Text fontSize="sm">
           {date.hours}:{date.minutes}
         </Text>
-        <Text size="sm">
+        <Text fontSize="sm">
           {date.month}/{date.day}/{date.year}
         </Text>
       </Stack>
-    </Stack>
+    </HStack>
   )
 }
