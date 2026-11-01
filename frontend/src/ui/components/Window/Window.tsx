@@ -1,10 +1,9 @@
 import { useAppsStore } from "@/app/stores/useAppsStore.ts"
-import styles from "./Window.module.scss"
 import type { WindowProps } from "./Window.types"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 import { Rnd } from "react-rnd"
-import { Stack } from "../layout/Stack/Stack"
-import { Heading } from "../typography/Heading/Heading"
+import { Box, Flex, Heading, HStack, IconButton, Image } from "@chakra-ui/react"
+import { IconMinus, IconSquare, IconSquares, IconX } from "@tabler/icons-react"
 
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
@@ -47,32 +46,75 @@ export function Window({ windowId }: WindowProps) {
         bounds="parent"
         dragHandleClassName="window__header"
       >
-        <div className={styles.window}>
-          <Stack className={`window__header ${styles.heading}`} justify="between">
-            <Stack gap="sm" align="center">
-              <img src={app.icon} alt={`${app.name} app icon`} className={styles.icon} />
-              <Heading level={6} className={styles.title}>
+        <Flex flexDir="column" h="100%">
+          <HStack
+            bg="gray.800"
+            className="window__header"
+            justify="space-between"
+            flexShrink="0"
+            m="4px"
+            p="10px 12px"
+            rounded="4px"
+            cursor="move"
+          >
+            <HStack gap="8px">
+              <Image src={app.icon} alt={`${app.name} app icon`} w="50px" h="50px" />
+              <Heading
+                as="h6"
+                w="100px"
+                size="lg"
+                truncate
+                color="whiteAlpha.800"
+                userSelect="none"
+              >
                 {app.name}
               </Heading>
-            </Stack>
-
-            <Stack gap="sm" className={styles.actions}>
-              <button onClick={() => minimize(win.id)} title="Minimize"></button>
+            </HStack>
+            <HStack gap="4px" alignSelf="center">
+              <IconButton
+                aria-label="Minimize"
+                onClick={() => minimize(win.id)}
+                bg="transparent"
+                _hover={{ bg: "gray.700" }}
+              >
+                <IconMinus />
+              </IconButton>
 
               {win.state === "maximized" ? (
-                <button onClick={() => restore(win.id)} title="Restore"></button>
+                <IconButton
+                  aria-label="Restore"
+                  onClick={() => restore(win.id)}
+                  bg="transparent"
+                  _hover={{ bg: "gray.700" }}
+                >
+                  <IconSquares />
+                </IconButton>
               ) : (
-                <button onClick={() => maximize(win.id)} title="Maximize"></button>
+                <IconButton
+                  aria-label="Maximize"
+                  onClick={() => maximize(win.id)}
+                  bg="transparent"
+                  _hover={{ bg: "gray.700" }}
+                >
+                  <IconSquare />
+                </IconButton>
               )}
 
-              <button onClick={() => close(win.id)} title="Close"></button>
-            </Stack>
-          </Stack>
+              <IconButton
+                aria-label="Close"
+                onClick={() => close(win.id)}
+                bg="transparent"
+                _hover={{ bg: "gray.700" }}
+              >
+                <IconX />
+              </IconButton>
+            </HStack>
+          </HStack>
 
-          <main>
+          <Box as="main">
             <Component />
-          </main>
-        </div>
+          </Box>
+        </Flex>
       </Rnd>
     </>
   )
