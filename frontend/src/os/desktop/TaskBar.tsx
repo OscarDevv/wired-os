@@ -16,11 +16,11 @@ import { IconGridDots } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 
 interface DateObject {
-  year: number
-  month: number
-  day: number
-  hours: number
-  minutes: number
+  year: string
+  month: string
+  day: string
+  hours: string
+  minutes: string
 }
 
 export function TaskBar() {
@@ -37,12 +37,16 @@ export function TaskBar() {
     return () => clearInterval(interval)
   }, [])
 
+  function time(t: number): string {
+    return String(t).padStart(2, "0")
+  }
+
   const date: DateObject = {
-    year: d.getFullYear(),
-    month: d.getMonth() + 1,
-    day: d.getDate(),
-    hours: d.getHours(),
-    minutes: d.getMinutes(),
+    year: String(d.getFullYear()),
+    month: time(d.getMonth() + 1),
+    day: time(d.getDate()),
+    hours: time(d.getHours()),
+    minutes: time(d.getMinutes()),
   }
 
   return (
