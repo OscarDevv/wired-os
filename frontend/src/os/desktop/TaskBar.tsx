@@ -1,7 +1,17 @@
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { App } from "@/ui/components/App/App"
-import { Box, Grid, IconButton, Popover, Portal, Stack, Text, HStack } from "@chakra-ui/react"
+import {
+  Box,
+  Grid,
+  IconButton,
+  Popover,
+  Portal,
+  Stack,
+  Text,
+  HStack,
+  Tooltip,
+} from "@chakra-ui/react"
 import { IconGridDots } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 
@@ -48,65 +58,78 @@ export function TaskBar() {
       borderTop="1px solid {colors.gray.700}"
     >
       <HStack gap="16px" align="center">
-        <Popover.Root lazyMount size="lg">
-          <Popover.Trigger asChild>
-            <IconButton
-              variant="outline"
-              color="gray.200"
-              borderColor="gray.700"
-              bg="transparent"
-              _hover={{
-                bg: "gray.800",
-              }}
-              aria-label="Open menu"
-            >
-              <IconGridDots />
-            </IconButton>
-          </Popover.Trigger>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <Box display="inline-flex">
+              <Popover.Root lazyMount size="lg">
+                <Popover.Trigger asChild>
+                  <IconButton
+                    variant="outline"
+                    color="gray.200"
+                    borderColor="gray.700"
+                    bg="transparent"
+                    _hover={{
+                      bg: "gray.800",
+                    }}
+                    aria-label="Open menu"
+                  >
+                    <IconGridDots />
+                  </IconButton>
+                </Popover.Trigger>
+
+                <Portal>
+                  <Popover.Positioner>
+                    <Popover.Content
+                      bg="gray.900"
+                      border="1px solid {colors.gray.700}"
+                      css={{
+                        "--popover-bg": "colors.gray.900",
+                        "&::-webkit-scrollbar": {
+                          w: "6px",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                          bg: "transparent",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          bg: "gray.600",
+                          borderRadius: "full",
+                        },
+                        "&::-webkit-scrollbar-thumb:hover": {
+                          bg: "gray.600",
+                        },
+                      }}
+                      maxH="350px"
+                      overflowY="auto"
+                    >
+                      <Popover.Body>
+                        <Popover.Title color="whiteAlpha.800" mb={4}>
+                          Apps Menu
+                        </Popover.Title>
+
+                        <Grid templateColumns="repeat(3, 1fr)" gap="8px">
+                          {apps.map((app) => (
+                            <App id={app.id} key={app.id} />
+                          ))}
+                        </Grid>
+                      </Popover.Body>
+                    </Popover.Content>
+                  </Popover.Positioner>
+                </Portal>
+              </Popover.Root>
+            </Box>
+          </Tooltip.Trigger>
 
           <Portal>
-            <Popover.Positioner>
-              <Popover.Content
-                bg="gray.900"
-                border="1px solid {colors.gray.700}"
-                css={{
-                  "--popover-bg": "colors.gray.900",
-                  "&::-webkit-scrollbar": {
-                    w: "6px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    bg: "transparent",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    bg: "gray.600",
-                    borderRadius: "full",
-                  },
-                  "&::-webkit-scrollbar-thumb:hover": {
-                    bg: "gray.600",
-                  },
-                }}
-                maxH="350px"
-                overflowY="auto"
-              >
-                <Popover.Arrow>
-                  <Popover.ArrowTip borderColor="gray.700" />
-                </Popover.Arrow>
-
-                <Popover.Body>
-                  <Popover.Title color="whiteAlpha.800" mb={4}>
-                    Apps Menu
-                  </Popover.Title>
-
-                  <Grid templateColumns="repeat(3, 1fr)" gap="8px">
-                    {apps.map((app) => (
-                      <App id={app.id} key={app.id} />
-                    ))}
-                  </Grid>
-                </Popover.Body>
-              </Popover.Content>
-            </Popover.Positioner>
+            <Tooltip.Positioner>
+              <Tooltip.Content>
+                <Tooltip.Arrow>
+                  <Tooltip.ArrowTip />
+                </Tooltip.Arrow>
+                Apps menu
+              </Tooltip.Content>
+            </Tooltip.Positioner>
           </Portal>
-        </Popover.Root>
+        </Tooltip.Root>
 
         <HStack gap="8px">
           {apps
