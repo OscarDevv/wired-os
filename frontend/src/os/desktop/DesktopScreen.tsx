@@ -26,7 +26,7 @@ export default function DesktopScreen() {
     <>
       <FileExplorerInitializer />
 
-      <Box h="calc(100dvh - 60px)">
+      <Box pos="relative" h="calc(100dvh - 60px)" overflow="hidden">
         {windows.map((w) => (
           <Window windowId={w.id} />
         ))}
