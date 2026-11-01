@@ -1,14 +1,9 @@
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useFileSystemStore } from "@/app/stores/useFileSystemStore"
-import { Button } from "@/ui/components/controls/Button/Button"
-import { Stack } from "@/ui/components/layout/Stack/Stack"
-import { Heading } from "@/ui/components/typography/Heading/Heading"
-import { Text } from "@/ui/components/typography/Text/Text"
+import { Box, Button, CloseButton, Dialog, Portal, Text, HStack } from "@chakra-ui/react"
 import { IconArrowLeft, IconPlus, IconTrash } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
-import { createPortal } from "react-dom"
 import { NodeList } from "./NodeList"
-import styles from "./FileExplorer.module.scss"
 
 function FileExplorer() {
   const createFile = useFileSystemStore((s) => s.createFile)
@@ -19,9 +14,9 @@ function FileExplorer() {
   const root = useFileSystemStore((s) => s.root)
   const focusNode = useFileSystemStore((s) => s.focusNode)
 
-  const [isDeleting, setIsDeleting] = useState(false)
   const [path, setPath] = useState<string[]>([])
 
+  const [deleteOpen, setDeleteOpen] = useState(false)
   const selectedNode = focusedId ? getNode(focusedId) : undefined
 
   const currentId = path.at(-1) ?? null
@@ -46,7 +41,7 @@ function FileExplorer() {
   }
 
   function handleCreateNode(type: "folder" | "file") {
-    const parentId = selectedNode?.id ?? null
+    const parentId = selectedNode?.id ?? currentId ?? null
 
     if (type === "folder") createFolder(parentId, "New folder")
     else createFile(parentId, "New file")
@@ -54,59 +49,74 @@ function FileExplorer() {
 
   return (
     <>
-      <Stack className={styles.container} direction="column">
-        <Stack gap="xs" className={styles.header}>
-          <Button size="xs" onClick={goBack} disabled={path.length === 0}>
-            <IconArrowLeft />
-            <Text>Back</Text>
-          </Button>
+      <HStack w="100%" p="4px">
+        <Button size="sm" onClick={goBack} disabled={path.length === 0}>
+          <IconArrowLeft />
+          <Text>Back</Text>
+        </Button>
 
-          <Button size="xs" onClick={() => handleCreateNode("file")}>
-            <IconPlus />
-            <Text>Create new file</Text>
-          </Button>
+        <Button size="sm" onClick={() => handleCreateNode("file")}>
+          <IconPlus />
+          <Text>Create new file</Text>
+        </Button>
 
-          <Button size="xs" onClick={() => handleCreateNode("folder")}>
-            <IconPlus />
-            <Text>Create new folder</Text>
-          </Button>
+        <Button size="sm" onClick={() => handleCreateNode("folder")}>
+          <IconPlus />
+          <Text>Create new folder</Text>
+        </Button>
 
-          <Button size="xs" onClick={() => setIsDeleting(true)} disabled={!selectedNode}>
-            <IconTrash />
-            <Text>Delete</Text>
-          </Button>
-        </Stack>
-
-        <Text size="md" variant="terminal">
-          /{currentFolder?.name ?? ""}
-        </Text>
-
-        <main>
-          <NodeList nodes={nodes} onOpenFolder={openFolder} />
-        </main>
-      </Stack>
-
-      {isDeleting &&
-        createPortal(
-          <div>
-            <Heading>
-              Deleting {selectedNode?.type} {selectedNode?.name}
-            </Heading>
-            <Text size={"lg"}>Are you sure you want to delete {selectedNode?.name}?</Text>
-            <Text>This action is not reversible.</Text>
-
-            <Button
-              onClick={() => {
-                setIsDeleting(false)
-                deleteNode(focusedId || "")
-              }}
-            >
-              Delete
+        <Dialog.Root open={deleteOpen} onOpenChange={(e) => setDeleteOpen(e.open)}>
+          <Dialog.Trigger asChild>
+            <Button size="sm" disabled={!selectedNode}>
+              <IconTrash />
+              <Text>Delete</Text>
             </Button>
-            <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
-          </div>,
-          document.body,
-        )}
+          </Dialog.Trigger>
+          <Portal>
+            <Dialog.Backdrop />
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.Header>
+                  <Dialog.Title>Delete "{selectedNode?.name}"</Dialog.Title>
+                </Dialog.Header>
+                <Dialog.Body>
+                  <Text>
+                    Are you sure you want to delete the {selectedNode?.type ?? "node"} "
+                    {selectedNode?.name}"?
+                  </Text>
+                  <Text>This action is unreversible.</Text>
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Dialog.ActionTrigger asChild>
+                    <Button onClick={() => setDeleteOpen(false)}>Cancel</Button>
+                  </Dialog.ActionTrigger>
+                  <Dialog.ActionTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        deleteNode(selectedNode?.id ?? "")
+                        setDeleteOpen(false)
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Dialog.ActionTrigger>
+                </Dialog.Footer>
+                <Dialog.CloseTrigger asChild>
+                  <CloseButton size="sm" />
+                </Dialog.CloseTrigger>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
+        </Dialog.Root>
+      </HStack>
+
+      <Text color="whiteAlpha.800" mx="8px" my="8px">
+        /{currentFolder?.name ?? ""}
+      </Text>
+
+      <Box as="main" flex="1" overflow="hidden" mx="8px">
+        <NodeList nodes={nodes} onOpenFolder={openFolder} />
+      </Box>
     </>
   )
 }
@@ -116,7 +126,7 @@ export function FileExplorerInitializer() {
 
   useEffect(() => {
     register({
-      name: "FileExplorer",
+      name: "File Explorer",
       component: FileExplorer,
       fixed: true,
       icon: "", // Temporary iconless
