@@ -46,7 +46,7 @@ export function Window({ windowId }: WindowProps) {
         bounds="parent"
         dragHandleClassName="window__header"
       >
-        <Flex flexDir="column" h="100%">
+        <Flex flexDir="column" h="100%" border="1px solid {colors.gray.800}" rounded="8px">
           <HStack
             bg="gray.800"
             className="window__header"

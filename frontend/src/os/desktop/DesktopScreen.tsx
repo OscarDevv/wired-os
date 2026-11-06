@@ -1,13 +1,11 @@
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { TaskBar } from "./TaskBar"
 import { Window } from "@/ui/components/Window/Window"
-//import styles from "./Desktop.module.scss"
 import { Button } from "@chakra-ui/react"
 import { useAppsStore } from "@/app/stores/useAppsStore"
-import { Text } from "@/ui/components/typography/Text/Text"
 import { useEffect, useState } from "react"
 import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorer"
-import { Box } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 
 export default function DesktopScreen() {
   const { windows } = useWindowsStore()
