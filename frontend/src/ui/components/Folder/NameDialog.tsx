@@ -1,31 +1,45 @@
-import { createPortal } from "react-dom"
+import { Button, Dialog, Input, Portal, Text } from "@chakra-ui/react"
 import type { FolderNameDialogProps } from "./Folder.types"
-import { Heading } from "../typography/Heading/Heading"
-import { Button } from "../controls/Button/Button"
-import { Text } from "../typography/Text/Text"
 import { readName } from "./readName"
-import styles from "./Folder.module.scss"
+import { useState } from "react"
 
 export function NameDialog({ title, onSubmit, onCancel }: FolderNameDialogProps) {
-  return createPortal(
-    <div className={styles.modal}>
-      <Heading>{title}</Heading>
+  const [open, setOpen] = useState(true)
 
-      <form
-        onSubmit={(e) => {
-          const name = readName(e)
-          if (name) onSubmit(name)
-        }}
-      >
-        <Text>Type the name:</Text>
-        <input name="name" autoFocus required />
-
-        <Button type="submit">Create</Button>
-        <Button type="button" onClick={onCancel}>
-          Cancel
-        </Button>
-      </form>
-    </div>,
-    document.body,
+  return (
+    <Portal>
+      <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.CloseTrigger />
+            <Dialog.Header>
+              <Dialog.Title>{title}</Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body>
+              <form
+                onSubmit={(e) => {
+                  const name = readName(e)
+                  if (name) onSubmit(name)
+                }}
+              >
+                <Text>Type the name:</Text>
+                <Input name="name" autoFocus required />
+              </form>
+            </Dialog.Body>
+            <Dialog.Footer>
+              <Dialog.ActionTrigger asChild>
+                <Button type="submit">Create</Button>
+              </Dialog.ActionTrigger>
+              <Dialog.ActionTrigger asChild>
+                <Button type="button" onClick={onCancel}>
+                  Cancel
+                </Button>
+              </Dialog.ActionTrigger>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>
+    </Portal>
   )
 }

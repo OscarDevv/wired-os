@@ -1,3 +1,5 @@
+//import type { Dispatch, SetStateAction } from "react"
+
 export type FolderDialogs = "createFile" | "createFolder" | "delete" | null
 
 export interface FolderProps {
@@ -7,6 +9,8 @@ export interface FolderProps {
 
 export interface FolderNameDialogProps {
   title: string
+  // open: boolean
+  // setOpen: Dispatch<SetStateAction<boolean>>
   onSubmit: (name: string) => void
   onCancel: () => void
 }
