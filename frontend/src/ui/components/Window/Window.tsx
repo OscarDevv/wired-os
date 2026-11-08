@@ -75,6 +75,7 @@ export function Window({ windowId }: WindowProps) {
                 aria-label="Minimize"
                 onClick={() => minimize(win.id)}
                 bg="transparent"
+                color="whiteAlpha.800"
                 _hover={{ bg: "gray.700" }}
               >
                 <IconMinus />
@@ -85,6 +86,7 @@ export function Window({ windowId }: WindowProps) {
                   aria-label="Restore"
                   onClick={() => restore(win.id)}
                   bg="transparent"
+                  color="whiteAlpha.800"
                   _hover={{ bg: "gray.700" }}
                 >
                   <IconSquares />
@@ -94,6 +96,7 @@ export function Window({ windowId }: WindowProps) {
                   aria-label="Maximize"
                   onClick={() => maximize(win.id)}
                   bg="transparent"
+                  color="whiteAlpha.800"
                   _hover={{ bg: "gray.700" }}
                 >
                   <IconSquare />
@@ -104,6 +107,7 @@ export function Window({ windowId }: WindowProps) {
                 aria-label="Close"
                 onClick={() => close(win.id)}
                 bg="transparent"
+                color="whiteAlpha.800"
                 _hover={{ bg: "gray.700" }}
               >
                 <IconX />
