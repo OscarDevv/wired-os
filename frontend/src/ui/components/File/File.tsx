@@ -1,13 +1,8 @@
 import { useFileSystemStore } from "@/app/stores/useFileSystemStore.ts"
-import styles from "./File.module.scss"
 import type { FileProps } from "./File.types.ts"
-import { Stack } from "../layout/Stack/Stack.tsx"
-import { Text } from "../typography/Text/Text.tsx"
 import { useState } from "react"
-import { Button } from "../controls/Button/Button.tsx"
-import { ContextMenu } from "../ContextMenu/ContextMenu.tsx"
 import { readName } from "../Folder/readName.ts"
-import { createPortal } from "react-dom"
+import { Center, Dialog, Image, Input, Menu, Portal, Text, Button } from "@chakra-ui/react"
 
 const FILE_ICONS: Record<string, string> = {
   txt: "document.svg",
@@ -45,63 +40,112 @@ export function File({ id }: FileProps) {
 
   return (
     <>
-      <ContextMenu
-        items={[
-          [
-            {
-              label: "Rename File",
-              onClick: () => setIsRenaming(true),
-            },
-            {
-              label: "Delete File",
-              onClick: () => setIsDeleting(true),
-            },
-          ],
-        ]}
-      >
-        <Stack
-          gap="sm"
-          direction="column"
-          align="center"
-          className={styles.file}
-          onClick={() => focusNode(id)}
-        >
-          <img src={getIcon(ext)} alt={`${ext || "text"} icon`} className={styles.icon} />
+      <Menu.Root>
+        <Menu.ContextTrigger>
+          <Center
+            flexDirection="column"
+            gap="4px"
+            onClick={() => focusNode(id)}
+            onBlur={() => focusNode(null)}
+            p="8px"
+            rounded="16px"
+            w="115px"
+            h="115px"
+            border="1px solid transparent"
+            transition="all 0.2s"
+            _hover={{ bg: "whiteAlpha.300", borderColor: "whiteAlpha.500" }}
+          >
+            <Image src={getIcon(ext)} alt={`${ext || "text"} icon`} width="50px" h="50px" />
 
-          {isRenaming ? (
-            <form
-              onSubmit={(e) => {
-                const name = readName(e)
-                if (name) renameNode(id, name)
-                setIsRenaming(false)
-              }}
-            >
-              <input
-                name="name"
-                defaultValue={file.name}
-                autoFocus
-                required
-                onBlur={() => setIsRenaming(false)}
-                className={styles.input}
-              />
-            </form>
-          ) : (
-            <Text className={styles.name}>{file.name}</Text>
-          )}
-        </Stack>
-      </ContextMenu>
+            {isRenaming ? (
+              <form
+                onSubmit={(e) => {
+                  const name = readName(e)
+                  if (name) renameNode(id, name)
+                  setIsRenaming(false)
+                }}
+              >
+                <Input
+                  name="name"
+                  defaultValue={file.name}
+                  autoFocus
+                  required
+                  h="fit-content"
+                  py="4px"
+                  color="whiteAlpha.800"
+                  borderColor="gray.500"
+                  onBlur={() => setIsRenaming(false)}
+                />
+              </form>
+            ) : (
+              <Text color="whiteAlpha.800" truncate w="95px">
+                {file.name}
+              </Text>
+            )}
+          </Center>
+        </Menu.ContextTrigger>
+        <Portal>
+          <Menu.Positioner>
+            <Menu.Content bg="gray.800" border="1px solid {colors.gray.600}">
+              <Menu.Item
+                color="whiteAlpha.800"
+                cursor="pointer"
+                transition="0.2s"
+                _hover={{ bg: "gray.700" }}
+                value="rename"
+                onSelect={() => setIsRenaming(true)}
+              >
+                Rename file
+              </Menu.Item>
+              <Menu.Item
+                color="whiteAlpha.800"
+                cursor="pointer"
+                transition="0.2s"
+                _hover={{ bg: "gray.700" }}
+                value="delete"
+                onSelect={() => setIsDeleting(true)}
+              >
+                Delete file
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Positioner>
+        </Portal>
+      </Menu.Root>
 
-      {isDeleting &&
-        createPortal(
-          <div className={styles.modal}>
-            <Text size="lg">Are you sure you want to delete {file.name}?</Text>
-            <Text>This action is not reversible.</Text>
-
-            <Button onClick={() => deleteNode(id)}>Delete file</Button>
-            <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
-          </div>,
-          document.body,
-        )}
+      {isDeleting && (
+        <Portal>
+          <Dialog.Root open={isDeleting} onOpenChange={(e) => setIsDeleting(e.open)}>
+            <Dialog.Backdrop />
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <Dialog.CloseTrigger />
+                <Dialog.Header>
+                  <Dialog.Title>Deleting file "{file.name}"</Dialog.Title>
+                </Dialog.Header>
+                <Dialog.Body>
+                  <Text>Are you sure you want to delete file "{file.name}"?</Text>
+                  <Text>This action is unreversible.</Text>
+                </Dialog.Body>
+                <Dialog.Footer>
+                  <Dialog.ActionTrigger asChild>
+                    <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
+                  </Dialog.ActionTrigger>
+                  <Dialog.ActionTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        deleteNode(file.id)
+                        setIsDeleting(false)
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Dialog.ActionTrigger>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Dialog.Root>
+        </Portal>
+      )}
     </>
   )
 }
