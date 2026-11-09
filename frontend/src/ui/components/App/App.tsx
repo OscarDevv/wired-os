@@ -1,7 +1,12 @@
 import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import type { AppProps } from "./App.types.js"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
-import { Image, Text, Tooltip, Portal, Center } from "@chakra-ui/react"
+
+import { Image } from "@chakra-ui/react/image"
+import { Text } from "@chakra-ui/react/text"
+import { Tooltip } from "@chakra-ui/react/tooltip"
+import { Portal } from "@chakra-ui/react/portal"
+import { Center } from "@chakra-ui/react/center"
 
 export function App({ id, variant = "default" }: AppProps) {
   const app = useAppsStore().find(id)

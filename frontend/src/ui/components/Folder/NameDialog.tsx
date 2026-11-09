@@ -1,4 +1,9 @@
-import { Button, Dialog, Input, Portal, Text } from "@chakra-ui/react"
+import { Dialog } from "@chakra-ui/react/dialog"
+import { Input } from "@chakra-ui/react/input"
+import { Portal } from "@chakra-ui/react/portal"
+import { Text } from "@chakra-ui/react/text"
+import { Button } from "@chakra-ui/react/button"
+
 import type { FolderNameDialogProps } from "./Folder.types"
 import { readName } from "./readName"
 import { useState } from "react"

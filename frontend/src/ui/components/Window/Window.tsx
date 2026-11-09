@@ -2,7 +2,14 @@ import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import type { WindowProps } from "./Window.types"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 import { Rnd } from "react-rnd"
-import { Box, Flex, Heading, HStack, IconButton, Image } from "@chakra-ui/react"
+
+import { Box } from "@chakra-ui/react/box"
+import { Flex } from "@chakra-ui/react/flex"
+import { Heading } from "@chakra-ui/react/heading"
+import { HStack } from "@chakra-ui/react/stack"
+import { IconButton } from "@chakra-ui/react/button"
+import { Image } from "@chakra-ui/react/image"
+
 import { IconMinus, IconSquare, IconSquares, IconX } from "@tabler/icons-react"
 
 export function Window({ windowId }: WindowProps) {

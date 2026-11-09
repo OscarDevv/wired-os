@@ -1,17 +1,16 @@
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { App } from "@/ui/components/App/App"
-import {
-  Box,
-  Grid,
-  IconButton,
-  Popover,
-  Portal,
-  Stack,
-  Text,
-  HStack,
-  Tooltip,
-} from "@chakra-ui/react"
+
+import { Box } from "@chakra-ui/react/box"
+import { Grid } from "@chakra-ui/react/grid"
+import { IconButton } from "@chakra-ui/react/button"
+import { Popover } from "@chakra-ui/react/popover"
+import { Portal } from "@chakra-ui/react/portal"
+import { Stack, HStack } from "@chakra-ui/react/stack"
+import { Text } from "@chakra-ui/react/text"
+import { Tooltip } from "@chakra-ui/react/tooltip"
+
 import { IconGridDots } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 

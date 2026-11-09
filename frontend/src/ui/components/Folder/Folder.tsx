@@ -2,7 +2,16 @@ import { useFileSystemStore } from "@/app/stores/useFileSystemStore.ts"
 import type { FolderDialogs, FolderProps } from "./Folder.types.ts"
 import { useState } from "react"
 import { readName } from "./readName.ts"
-import { Center, Image, Input, Menu, Button, Dialog, Portal, Text } from "@chakra-ui/react"
+
+import { Center } from "@chakra-ui/react/center"
+import { Dialog } from "@chakra-ui/react/dialog"
+import { Image } from "@chakra-ui/react"
+import { Input } from "@chakra-ui/react/input"
+import { Menu } from "@chakra-ui/react/menu"
+import { Portal } from "@chakra-ui/react/portal"
+import { Text } from "@chakra-ui/react/text"
+import { Button } from "@chakra-ui/react/button"
+
 import { NameDialog } from "./NameDialog.tsx"
 
 export function Folder({ id, onOpen }: FolderProps) {

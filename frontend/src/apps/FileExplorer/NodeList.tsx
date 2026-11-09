@@ -1,7 +1,7 @@
 import { type FSNode } from "@/app/stores/useFileSystemStore"
 import { File } from "@/ui/components/File/File"
 import { Folder } from "@/ui/components/Folder/Folder"
-import { HStack } from "@chakra-ui/react"
+import { HStack } from "@chakra-ui/react/stack"
 
 interface NodeListProps {
   nodes: FSNode[]
