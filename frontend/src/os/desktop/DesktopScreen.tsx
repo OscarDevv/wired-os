@@ -8,7 +8,7 @@ import { Text } from "@chakra-ui/react/text"
 
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useEffect, useState } from "react"
-import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorer"
+import { FileExplorerInitializer } from "@/apps/FileExplorer/FileExplorerInitializer"
 
 export default function DesktopScreen() {
   const { windows } = useWindowsStore()

@@ -11,6 +11,7 @@ import { IconButton } from "@chakra-ui/react/button"
 import { Image } from "@chakra-ui/react/image"
 
 import { IconMinus, IconSquare, IconSquares, IconX } from "@tabler/icons-react"
+import { Suspense } from "react"
 
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
@@ -122,9 +123,11 @@ export function Window({ windowId }: WindowProps) {
             </HStack>
           </HStack>
 
-          <Box as="main">
-            <Component />
-          </Box>
+          <Suspense fallback={<div>Loading app...</div>}>
+            <Box as="main">
+              <Component />
+            </Box>
+          </Suspense>
         </Flex>
       </Rnd>
     </>
