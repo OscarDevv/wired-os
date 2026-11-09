@@ -1,17 +1,16 @@
 import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useWindowsStore } from "@/app/stores/useWindowsStore"
 import { App } from "@/ui/components/App/App"
-import {
-  Box,
-  Grid,
-  IconButton,
-  Popover,
-  Portal,
-  Stack,
-  Text,
-  HStack,
-  Tooltip,
-} from "@chakra-ui/react"
+
+import { Box } from "@chakra-ui/react/box"
+import { Grid } from "@chakra-ui/react/grid"
+import { IconButton } from "@chakra-ui/react/button"
+import { Popover } from "@chakra-ui/react/popover"
+import { Portal } from "@chakra-ui/react/portal"
+import { Stack, HStack } from "@chakra-ui/react/stack"
+import { Text } from "@chakra-ui/react/text"
+import { Tooltip } from "@chakra-ui/react/tooltip"
+
 import { IconGridDots } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 
@@ -32,7 +31,7 @@ export function TaskBar() {
   useEffect(() => {
     const interval = setInterval(() => {
       setD(new Date())
-    }, 1000)
+    }, 60_000)
 
     return () => clearInterval(interval)
   }, [])
@@ -48,6 +47,8 @@ export function TaskBar() {
     hours: time(d.getHours()),
     minutes: time(d.getMinutes()),
   }
+
+  const minimizedWindows = windows.filter(w => w.state === "minimized")
 
   return (
     <HStack
@@ -143,14 +144,12 @@ export function TaskBar() {
             ))}
         </HStack>
 
-        {windows.filter((w) => w.state === "minimized").length > 0 && (
+        {minimizedWindows.length > 0 && (
           <>
             <Box borderLeft="1px solid {colors.gray.700}" h="35px"></Box>
 
             <HStack gap="8px">
-              {windows
-                .filter((w) => w.state === "minimized")
-                .map((w) => (
+              {minimizedWindows.map((w) => (
                   <App variant="simplified" id={w.appId} key={w.appId} />
                 ))}
             </HStack>

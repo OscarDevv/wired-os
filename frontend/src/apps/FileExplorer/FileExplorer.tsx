@@ -1,11 +1,17 @@
-import { useAppsStore } from "@/app/stores/useAppsStore"
 import { useFileSystemStore } from "@/app/stores/useFileSystemStore"
-import { Box, Button, CloseButton, Dialog, Portal, Text, HStack } from "@chakra-ui/react"
+
+import { Box } from "@chakra-ui/react/box"
+import { Button, CloseButton } from "@chakra-ui/react/button"
+import { Dialog } from "@chakra-ui/react/dialog"
+import { Portal } from "@chakra-ui/react/portal"
+import { Text } from "@chakra-ui/react/text"
+import { HStack } from "@chakra-ui/react/stack"
+
 import { IconArrowLeft, IconPlus, IconTrash } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { NodeList } from "./NodeList"
 
-function FileExplorer() {
+export default function FileExplorer() {
   const createFile = useFileSystemStore((s) => s.createFile)
   const createFolder = useFileSystemStore((s) => s.createFolder)
   const deleteNode = useFileSystemStore((s) => s.deleteNode)
@@ -119,21 +125,4 @@ function FileExplorer() {
       </Box>
     </>
   )
-}
-
-export function FileExplorerInitializer() {
-  const register = useAppsStore((s) => s.register)
-
-  useEffect(() => {
-    register({
-      name: "File Explorer",
-      component: FileExplorer,
-      fixed: true,
-      icon: "", // Temporary iconless
-      type: "system",
-      description: "Browse your files",
-    })
-  }, [register])
-
-  return null
 }

@@ -15,6 +15,8 @@ interface WindowsStore {
 
   move: (id: string, pos: WindowBounds["position"]) => void
   resize: (id: string, size: WindowBounds["size"]) => void
+
+  updateBounds: (id: string, pos: WindowBounds["position"], size: WindowBounds["size"]) => void
 }
 
 interface Window extends WindowBounds {
@@ -156,6 +158,22 @@ export const useWindowsStore = create<WindowsStore>((set, get) => ({
                 position: window.position,
                 size: size,
               },
+            }
+          : window,
+      ),
+    }))
+  },
+
+  updateBounds(id, position, size) {
+    set((state) => ({
+      windows: state.windows.map((window) =>
+        window.id === id
+          ? {
+              ...window,
+              position,
+              size,
+              restoreBounds:
+                window.state === "floating" ? { position, size } : window.restoreBounds,
             }
           : window,
       ),

@@ -1,3 +1,5 @@
+import type { FSFile } from "@/app/stores/useFileSystemStore"
+
 export interface FileProps {
-  id: string
+  node: FSFile
 }

@@ -2,7 +2,15 @@ import { useFileSystemStore } from "@/app/stores/useFileSystemStore.ts"
 import type { FileProps } from "./File.types.ts"
 import { useState } from "react"
 import { readName } from "../Folder/readName.ts"
-import { Center, Dialog, Image, Input, Menu, Portal, Text, Button } from "@chakra-ui/react"
+
+import { Center } from "@chakra-ui/react/center"
+import { Dialog } from "@chakra-ui/react/dialog"
+import { Image } from "@chakra-ui/react"
+import { Input } from "@chakra-ui/react/input"
+import { Menu } from "@chakra-ui/react/menu"
+import { Portal } from "@chakra-ui/react/portal"
+import { Text } from "@chakra-ui/react/text"
+import { Button } from "@chakra-ui/react/button"
 
 const FILE_ICONS: Record<string, string> = {
   txt: "document.svg",
@@ -25,11 +33,11 @@ function getIcon(ext: string): string {
   return `/icons/${icon}`
 }
 
-export function File({ id }: FileProps) {
+export function File({ node }: FileProps) {
   const [isRenaming, setIsRenaming] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  const file = useFileSystemStore((s) => s.getNode(id))
+  const file = useFileSystemStore((s) => s.getNode(node.id))
   const focusNode = useFileSystemStore((s) => s.focusNode)
   const renameNode = useFileSystemStore((s) => s.renameNode)
   const deleteNode = useFileSystemStore((s) => s.deleteNode)
@@ -45,7 +53,7 @@ export function File({ id }: FileProps) {
           <Center
             flexDirection="column"
             gap="4px"
-            onClick={() => focusNode(id)}
+            onClick={() => focusNode(node.id)}
             onBlur={() => focusNode(null)}
             p="8px"
             rounded="16px"
@@ -61,7 +69,7 @@ export function File({ id }: FileProps) {
               <form
                 onSubmit={(e) => {
                   const name = readName(e)
-                  if (name) renameNode(id, name)
+                  if (name) renameNode(node.id, name)
                   setIsRenaming(false)
                 }}
               >

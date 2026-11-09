@@ -2,13 +2,28 @@ import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import type { WindowProps } from "./Window.types"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
 import { Rnd } from "react-rnd"
-import { Box, Flex, Heading, HStack, IconButton, Image } from "@chakra-ui/react"
+
+import { Box } from "@chakra-ui/react/box"
+import { Flex } from "@chakra-ui/react/flex"
+import { Heading } from "@chakra-ui/react/heading"
+import { HStack } from "@chakra-ui/react/stack"
+import { IconButton } from "@chakra-ui/react/button"
+import { Image } from "@chakra-ui/react/image"
+
 import { IconMinus, IconSquare, IconSquares, IconX } from "@tabler/icons-react"
+import { Suspense } from "react"
 
 export function Window({ windowId }: WindowProps) {
-  const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
+  const win = useWindowsStore(s => s.windows.find(w => w.id === windowId))
+
+  const move = useWindowsStore((s) => s.move)
+  const minimize = useWindowsStore((s) => s.minimize)
+  const maximize = useWindowsStore((s) => s.maximize)
+  const restore = useWindowsStore((s) => s.restore)
+  const close = useWindowsStore((s) => s.close)
+  const updateBounds = useWindowsStore(s => s.updateBounds)
+
   const app = useAppsStore((s) => s.apps.find((a) => a.id === win?.appId))
-  const { move, resize, minimize, maximize, restore, close } = useWindowsStore()
 
   if (!app || !win) return null
 
@@ -31,14 +46,14 @@ export function Window({ windowId }: WindowProps) {
           move(win.id, { x: data.x, y: data.y })
         }}
         onResizeStop={(_e, _d, ref, _dt, position) => {
-          resize(win.id, {
-            width: ref.offsetWidth,
-            height: ref.offsetHeight,
-          })
-          move(win.id, {
-            x: position.x,
-            y: position.y,
-          })
+          updateBounds(
+            windowId,
+            position,
+            {
+              width: ref.offsetWidth,
+              height: ref.offsetHeight
+            }
+          )
         }}
 
         disableDragging={win.state !== "floating"}
@@ -115,9 +130,11 @@ export function Window({ windowId }: WindowProps) {
             </HStack>
           </HStack>
 
-          <Box as="main">
-            <Component />
-          </Box>
+          <Suspense fallback={<div>Loading app...</div>}>
+            <Box as="main">
+              <Component />
+            </Box>
+          </Suspense>
         </Flex>
       </Rnd>
     </>

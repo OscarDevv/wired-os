@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react"
-import { Highlight, HStack, Kbd, Progress, Text, Box, Heading } from "@chakra-ui/react"
+
+import { Highlight } from "@chakra-ui/react/highlight"
+import { HStack } from "@chakra-ui/react/stack"
+import { Kbd } from "@chakra-ui/react/kbd"
+import { Progress } from "@chakra-ui/react/progress"
+import { Text } from "@chakra-ui/react/text"
+import { Box } from "@chakra-ui/react/box"
+import { Heading } from "@chakra-ui/react/heading"
+
 import { useNavigate } from "react-router-dom"
 import { useKeyboard } from "@/hooks/useKeyboard"
 

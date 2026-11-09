@@ -1,16 +1,14 @@
-//import type { Dispatch, SetStateAction } from "react"
+import type { FSNode } from "@/app/stores/useFileSystemStore"
 
 export type FolderDialogs = "createFile" | "createFolder" | "delete" | null
 
 export interface FolderProps {
-  id: string
+  node: FSNode
   onOpen?: () => void
 }
 
 export interface FolderNameDialogProps {
   title: string
-  // open: boolean
-  // setOpen: Dispatch<SetStateAction<boolean>>
   onSubmit: (name: string) => void
   onCancel: () => void
 }

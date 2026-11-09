@@ -1,7 +1,7 @@
 import { type FSNode } from "@/app/stores/useFileSystemStore"
 import { File } from "@/ui/components/File/File"
 import { Folder } from "@/ui/components/Folder/Folder"
-import { HStack } from "@chakra-ui/react"
+import { HStack } from "@chakra-ui/react/stack"
 
 interface NodeListProps {
   nodes: FSNode[]
@@ -13,9 +13,9 @@ export function NodeList({ nodes, onOpenFolder }: NodeListProps) {
     <HStack gap="4px" flexWrap="wrap" w="100%" h="100%" overflowY="auto" overflowX="hidden">
       {nodes.map((node) =>
         node.type === "folder" ? (
-          <Folder key={node.id} id={node.id} onOpen={() => onOpenFolder(node.id)} />
+          <Folder key={node.id} node={node} onOpen={() => onOpenFolder(node.id)} />
         ) : (
-          <File key={node.id} id={node.id} />
+          <File key={node.id} node={node} />
         ),
       )}
     </HStack>

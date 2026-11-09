@@ -1,17 +1,23 @@
 import { useAppsStore } from "@/app/stores/useAppsStore.ts"
 import type { AppProps } from "./App.types.js"
 import { useWindowsStore } from "@/app/stores/useWindowsStore.ts"
-import { Image, Text, Tooltip, Portal, Center } from "@chakra-ui/react"
+
+import { Image } from "@chakra-ui/react/image"
+import { Text } from "@chakra-ui/react/text"
+import { Tooltip } from "@chakra-ui/react/tooltip"
+import { Portal } from "@chakra-ui/react/portal"
+import { Center } from "@chakra-ui/react/center"
 
 export function App({ id, variant = "default" }: AppProps) {
-  const app = useAppsStore().find(id)
-  const { open, findByAppId, restore } = useWindowsStore()
+  const app = useAppsStore(s => s.apps.find(app => app.id === id))
+
+  const open = useWindowsStore(s => s.open)
+  const restore = useWindowsStore(s => s.restore)
+  const window = useWindowsStore(s => s.windows.find(w => w.appId === id))
 
   if (!app) return null
 
   function handleClick() {
-    const window = findByAppId(id)
-
     if (window) {
       restore(window.id)
       return
