@@ -15,13 +15,13 @@ import { Suspense } from "react"
 
 export function Window({ windowId }: WindowProps) {
   const win = useWindowsStore(s => s.windows.find(w => w.id === windowId))
-  
+
   const move = useWindowsStore((s) => s.move)
-  const resize = useWindowsStore((s) => s.resize)
   const minimize = useWindowsStore((s) => s.minimize)
   const maximize = useWindowsStore((s) => s.maximize)
   const restore = useWindowsStore((s) => s.restore)
   const close = useWindowsStore((s) => s.close)
+  const updateBounds = useWindowsStore(s => s.updateBounds)
 
   const app = useAppsStore((s) => s.apps.find((a) => a.id === win?.appId))
 
@@ -46,14 +46,14 @@ export function Window({ windowId }: WindowProps) {
           move(win.id, { x: data.x, y: data.y })
         }}
         onResizeStop={(_e, _d, ref, _dt, position) => {
-          resize(win.id, {
-            width: ref.offsetWidth,
-            height: ref.offsetHeight,
-          })
-          move(win.id, {
-            x: position.x,
-            y: position.y,
-          })
+          updateBounds(
+            windowId,
+            position,
+            {
+              width: ref.offsetWidth,
+              height: ref.offsetHeight
+            }
+          )
         }}
 
         disableDragging={win.state !== "floating"}
