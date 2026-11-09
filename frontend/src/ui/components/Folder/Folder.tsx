@@ -14,11 +14,11 @@ import { Button } from "@chakra-ui/react/button"
 
 import { NameDialog } from "./NameDialog.tsx"
 
-export function Folder({ id, onOpen }: FolderProps) {
+export function Folder({ node, onOpen }: FolderProps) {
   const [dialog, setDialog] = useState<FolderDialogs>(null)
   const [isRenaming, setIsRenaming] = useState(false)
 
-  const folder = useFileSystemStore((s) => s.getNode(id))
+  const folder = useFileSystemStore((s) => s.getNode(node.id))
   const renameNode = useFileSystemStore((s) => s.renameNode)
   const focusNode = useFileSystemStore((s) => s.focusNode)
   const createFile = useFileSystemStore((s) => s.createFile)
@@ -35,7 +35,7 @@ export function Folder({ id, onOpen }: FolderProps) {
             onDoubleClick={onOpen}
             flexDirection="column"
             gap="4px"
-            onClick={() => focusNode(id)}
+            onClick={() => focusNode(node.id)}
             onBlur={() => focusNode(null)}
             p="8px"
             rounded="16px"
@@ -51,7 +51,7 @@ export function Folder({ id, onOpen }: FolderProps) {
               <form
                 onSubmit={(e) => {
                   const name = readName(e)
-                  if (name) renameNode(id, name)
+                  if (name) renameNode(node.id, name)
                   setIsRenaming(false)
                 }}
               >
@@ -133,7 +133,7 @@ export function Folder({ id, onOpen }: FolderProps) {
         <NameDialog
           title="Creating a new file"
           onSubmit={(name) => {
-            createFile(id, name)
+            createFile(node.id, name)
             setDialog(null)
           }}
           onCancel={() => setDialog(null)}
@@ -144,7 +144,7 @@ export function Folder({ id, onOpen }: FolderProps) {
         <NameDialog
           title="Creating a new folder"
           onSubmit={(name) => {
-            createFolder(id, name)
+            createFolder(node.id, name)
             setDialog(null)
           }}
           onCancel={() => setDialog(null)}
@@ -173,7 +173,7 @@ export function Folder({ id, onOpen }: FolderProps) {
                     <Button onClick={() => setDialog(null)}>Cancel</Button>
                   </Dialog.ActionTrigger>
                   <Dialog.ActionTrigger asChild>
-                    <Button onClick={() => deleteNode(id)}>Delete</Button>
+                    <Button onClick={() => deleteNode(node.id)}>Delete</Button>
                   </Dialog.ActionTrigger>
                 </Dialog.Footer>
               </Dialog.Content>

@@ -63,17 +63,43 @@ function findNode(nodes: FSNode[], id: string): FSNode | undefined {
 }
 
 function updateNode(nodes: FSNode[], id: string, fn: (node: FSNode) => FSNode): FSNode[] {
-  return nodes.map((node) => {
-    if (node.id === id) return fn(node)
+  let changed = false
+
+  const updated = nodes.map(node => {
+    if (node.id === id) {
+      changed = true
+      return fn(node)
+    }
+
     if (node.type === "folder") {
-      return {
-        ...node,
-        content: updateNode(node.content, id, fn),
+      const content = updateNode(node.content, id, fn)
+
+      if (content != node.content) {
+        changed = true
+
+        return {
+          ...node,
+          content
+        }
       }
     }
 
     return node
   })
+
+  return changed ? updated : nodes
+
+  // return nodes.map((node) => {
+  //   if (node.id === id) return fn(node)
+  //   if (node.type === "folder") {
+  //     return {
+  //       ...node,
+  //       content: updateNode(node.content, id, fn),
+  //     }
+  //   }
+
+  //   return node
+  // })
 }
 
 function removeNode(nodes: FSNode[], id: string): FSNode[] {
