@@ -14,9 +14,16 @@ import { IconMinus, IconSquare, IconSquares, IconX } from "@tabler/icons-react"
 import { Suspense } from "react"
 
 export function Window({ windowId }: WindowProps) {
-  const win = useWindowsStore((s) => s.windows.find((w) => w.id === windowId))
+  const win = useWindowsStore(s => s.windows.find(w => w.id === windowId))
+  
+  const move = useWindowsStore((s) => s.move)
+  const resize = useWindowsStore((s) => s.resize)
+  const minimize = useWindowsStore((s) => s.minimize)
+  const maximize = useWindowsStore((s) => s.maximize)
+  const restore = useWindowsStore((s) => s.restore)
+  const close = useWindowsStore((s) => s.close)
+
   const app = useAppsStore((s) => s.apps.find((a) => a.id === win?.appId))
-  const { move, resize, minimize, maximize, restore, close } = useWindowsStore()
 
   if (!app || !win) return null
 
