@@ -31,7 +31,7 @@ export function TaskBar() {
   useEffect(() => {
     const interval = setInterval(() => {
       setD(new Date())
-    }, 1000)
+    }, 60_000)
 
     return () => clearInterval(interval)
   }, [])
@@ -47,6 +47,8 @@ export function TaskBar() {
     hours: time(d.getHours()),
     minutes: time(d.getMinutes()),
   }
+
+  const minimizedWindows = windows.filter(w => w.state === "minimized")
 
   return (
     <HStack
@@ -142,14 +144,12 @@ export function TaskBar() {
             ))}
         </HStack>
 
-        {windows.filter((w) => w.state === "minimized").length > 0 && (
+        {minimizedWindows.length > 0 && (
           <>
             <Box borderLeft="1px solid {colors.gray.700}" h="35px"></Box>
 
             <HStack gap="8px">
-              {windows
-                .filter((w) => w.state === "minimized")
-                .map((w) => (
+              {minimizedWindows.map((w) => (
                   <App variant="simplified" id={w.appId} key={w.appId} />
                 ))}
             </HStack>
