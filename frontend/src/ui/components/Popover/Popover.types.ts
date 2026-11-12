@@ -1,0 +1,16 @@
+export type {
+  PopoverAnchorProps,
+  PopoverArrowProps,
+  PopoverArrowTipProps,
+  PopoverBodyProps,
+  PopoverCloseTriggerProps,
+  PopoverContentProps,
+  PopoverDescriptionProps,
+  PopoverFooterProps,
+  PopoverHeaderProps,
+  PopoverOpenChangeDetails,
+  PopoverPositionerProps,
+  PopoverRootProps,
+  PopoverTitleProps,
+  PopoverTriggerProps,
+} from "@chakra-ui/react/popover"
