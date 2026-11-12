@@ -8,6 +8,7 @@
     "build": "pnpm --filter web build",
     "lint": "pnpm --filter web lint",
     "preview": "pnpm --filter web preview",
+    "test": "pnpm --filter web test",
     "script:component": "tsx ./scripts/create-component.ts",
     "format": "oxfmt",
     "typecheck": "tsc -p frontend/tsconfig.app.json --noEmit"
