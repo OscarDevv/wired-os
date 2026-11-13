@@ -13,7 +13,7 @@ body:
       label: Is there an existing Issue for this?
       description: Please search the Issues to see if this bug has already been reported.
       options:
-        - labels: I have searched the existing Issues
+        - label: I have searched the existing Issues
           required: true
 
   - type: textarea
@@ -36,9 +36,10 @@ body:
         3. Observe...
     validations:
       required: true
+      
   - type: textarea
     id: expected
-    attribtutes:
+    attributes:
       label: Expected behavior
       description: What should have happened?
     validations:
