@@ -1,0 +1,45 @@
+name: Bug report
+description: Create a new bug report.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug! Please provide as much information as possible.
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing Issue for this?
+      description: Please search the Issues to see if this bug has already been reported.
+      options:
+        - labels: I have searched the existing Issues
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the bug you encountered.
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this behavior?
+      placeholder: |
+        1. Open...
+        2. Click...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attribtutes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
