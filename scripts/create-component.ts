@@ -81,11 +81,11 @@ export interface ${n}Props {
 
   [`${n}.spec.tsx`]: ``,
 
-  [`${n}.story.ts`]: ``
+  [`${n}.stories.ts`]: ``
 }
 
 for (const [fileName, content] of Object.entries(files)) {
   await fs.writeFile(path.join(componentPath, fileName), content)
 }
 
-p.outro("Component created at " + path.join(componentPath, n + ".tsx"))
+p.outro("Component created at " + path.join(componentPath, n, "index.tsx"))
