@@ -10,6 +10,7 @@
     "preview": "pnpm --filter web preview",
     "script:component": "tsx ./scripts/create-component.ts",
     "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "typecheck": "tsc -p frontend/tsconfig.app.json --noEmit",
     "test": "pnpm --filter web test",
     "test:run": "pnpm --filter web test:run"
