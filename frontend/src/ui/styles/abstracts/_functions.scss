@@ -1,0 +1,28 @@
+@use "sass:string";
+@use "sass:meta";
+
+@use "../exceptions/exceptions" as *;
+
+@function starts-with($string, $search) {
+  @if type-of($string) != "string" {
+    @error type-exception("string", meta.type-of($string));
+  }
+
+  @if (type-of($search)) != "string" {
+    @error type-exception("string", meta.type-of($search));
+  }
+
+  @return string.slice($string, 1, string.length($search)) == $search;
+}
+
+@function ends-with($string, $search) {
+  @if type-of($string) != "string" {
+    @error type-exception("string", meta.type-of($string));
+  }
+
+  @if (type-of($search)) != "string" {
+    @error type-exception("string", meta.type-of($search));
+  }
+
+  @return string.slice($string, -string.length($search)) == $search;
+}

@@ -1,0 +1,17 @@
+@use "sass:meta";
+
+@use "./type-exception" as *;
+
+@function value-exception($expected-values, $received-value) {
+  @if meta.type-of($expected-values) != "list" {
+    @error type-exception("list", meta.type-of($expected-values));
+  }
+
+  @each $value in $expected-values {
+    @if $received-value == $value {
+      @warn "Attempted to throw exception value-exception, but $received-value actually has a matching value in list $expected-values.";
+    }
+  }
+
+  @return "Expected the received value to match one of the following values: #{$expected-values}, but instead received #{$received-value}";
+}
