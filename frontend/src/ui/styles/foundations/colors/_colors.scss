@@ -9,7 +9,7 @@
       }
     }
 
-    @each $role, $target in $semantic-colorc {
+    @each $role, $target in $semantic-colors {
       @each $step in $steps {
         --color-#{$role}-#{$step}: var(--color-#{$target}-#{$step});
       }
