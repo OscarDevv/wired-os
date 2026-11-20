@@ -1,0 +1,22 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin position-center($pos) {
+  @if $pos != "absolute" or $pos != "fixed" {
+    @error "Expected 'absolute' or 'fixed' in positionCenter parameter, but received " + $pos "."
+  }
+
+  position: $pos;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
