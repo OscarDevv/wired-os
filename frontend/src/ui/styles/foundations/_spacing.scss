@@ -1,0 +1,18 @@
+@use "sass:string";
+
+$spacing-base: 2;
+
+@function space($value) {
+  @return string.unquote("#{$spacing-base * $value}px");
+}
+
+$semantic-spacings: (
+  xs: space(1),
+  sm: space(2),
+  md: space(3),
+  lg: space(4),
+  xl: space(6),
+  2xl: space(8),
+  3xl: space(12),
+  4xl: space(16)
+);
