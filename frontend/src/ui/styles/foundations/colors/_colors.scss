@@ -9,9 +9,33 @@
       }
     }
 
-    @each $role, $target in $semantic {
+    @each $role, $target in $semantic-colorc {
       @each $step in $steps {
         --color-#{$role}-#{$step}: var(--color-#{$target}-#{$step});
+      }
+    }
+  }
+
+  @each $name, $scale in $colors {
+    @each $step, $value in $scale {
+      .text-#{$name}-#{$step} {
+        color: var(--color-#{$name}-#{$step});
+      }
+
+      .bg-#{$name}-#{$step} {
+        background: var(--color-#{$name}-#{$step});
+      }
+    }
+  }
+
+  @each $role, $target in $semantic-colors {
+    @each $step in $steps {
+      .text-#{$role}-#{$step} {
+        color: var(--color-#{$target}-#{$step});
+      }
+
+      .bg-#{$role}-#{$step} {
+        background: var(--color-#{$target}-#{$step});
       }
     }
   }
