@@ -1,0 +1,18 @@
+@use "./colors-variables" as *;
+@use "./colors-functions" as *;
+
+@mixin color-tokens {
+  :root {
+    @each $name, $scale in $colors {
+      @each $step, $value in $scale {
+        --color-#{$name}-#{$step}: #{$value};
+      }
+    }
+
+    @each $role, $target in $semantic {
+      @each $step in $steps {
+        --color-#{$role}-#{$step}: var(--color-#{$target}-#{$step});
+      }
+    }
+  }
+}
