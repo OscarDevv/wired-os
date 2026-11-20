@@ -37,11 +37,13 @@ $hues: (
   blue: (255, 0.2),
   violet: (295, 0.24),
   pink: (350, 0.22),
+  gray: (295, 0.03)
 );
 
 $semantic-colors: (
   primary: violet,
   secondary: pink,
+  neutral: gray,
   warning: orange,
   success: green,
   error: red,
