@@ -38,8 +38,8 @@ $colors: ();
 }
 
 @function c($name, $step: 500) {
-  @if map.has-key($semantic, $name) {
-    $name: map.get($semantic, $name);
+  @if map.has-key($semantic-colors, $name) {
+    $name: map.get($semantic-colors, $name);
   }
 
   @if not map.has-key($colors, $name) {
