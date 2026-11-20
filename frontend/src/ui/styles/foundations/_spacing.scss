@@ -16,3 +16,11 @@ $semantic-spacings: (
   3xl: space(12),
   4xl: space(16)
 );
+
+@mixin spacing-tokens {
+  :root {
+    @each $name, $value in $semantic-spacings {
+      --spacing-#{$name}: #{$value};
+    }
+  }
+}

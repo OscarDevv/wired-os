@@ -1,3 +1,5 @@
 @use "../foundations/colors/index" as *;
+@use "../foundations/spacing" as *;
 
 @include color-tokens;
+@include spacing-tokens;
