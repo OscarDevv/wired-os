@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest"
+import { afterEach, describe, expect, it, test } from "vitest"
 import { cleanup, render, screen } from "@testing-library/react"
 import { BaseComponent } from "."
 
@@ -47,5 +47,35 @@ describe("BaseComponent", () => {
     const element = screen.getByText("Element")
 
     expect(element).toHaveClass("extra-class")
+  })
+
+  test.for([
+      {
+        spacing: "paddings",
+        classes: ["p", "pt", "pb", "pr", "pl", "px", "py"]
+      },
+      {
+        spacing: "margins",
+        classes: ["m", "mt", "mb", "mr", "ml", "mx", "my"]
+      },
+      {
+        spacing: "gaps",
+        classes: ["gap", "gap-x", "gap-y"]
+      }
+  ])("should apply $spacing classes for the available directions", ({ classes }) => {
+    const spacings = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"]
+    const spacingSize = Math.floor(Math.random() * spacings.length)
+
+    render(
+      <>
+        {classes.map(c => (
+          <BaseComponent key={c} styles={{ [c.replace("-", "")]: spacings[spacingSize] }}>{c}</BaseComponent>
+        ))}
+      </>
+    )
+
+    classes.forEach(c =>
+      expect(screen.getByText(c)).toHaveClass(`${c}-${spacings[spacingSize]}`)
+    )
   })
 })

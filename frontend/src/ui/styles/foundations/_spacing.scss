@@ -41,8 +41,8 @@ $spacing-sides: (
 
 $gap-axes: (
   "": gap,
-  "-x": column-gap,
-  "-y": row-gap,
+  "x": column-gap,
+  "y": row-gap,
 );
 
 @mixin spacing-tokens {
