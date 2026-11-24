@@ -1,3 +1,5 @@
+# Some steps are going to keep continue-on-error as true when the pages aren't done after migration of Chakra UI to an own Design System
+
 name: Format, Test and Build
 
 on:
@@ -30,7 +32,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Tests
-        continue-on-error: true
         run: pnpm test:run
 
       - name: Build
@@ -60,9 +61,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        continue-on-error: true
         run: pnpm typecheck
 
       - name: Format Check
-        continue-on-error: true
         run: pnpm format:check
