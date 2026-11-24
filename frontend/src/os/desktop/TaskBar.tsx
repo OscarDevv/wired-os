@@ -48,7 +48,7 @@ export function TaskBar() {
     minutes: time(d.getMinutes()),
   }
 
-  const minimizedWindows = windows.filter(w => w.state === "minimized")
+  const minimizedWindows = windows.filter((w) => w.state === "minimized")
 
   return (
     <HStack
@@ -150,8 +150,8 @@ export function TaskBar() {
 
             <HStack gap="8px">
               {minimizedWindows.map((w) => (
-                  <App variant="simplified" id={w.appId} key={w.appId} />
-                ))}
+                <App variant="simplified" id={w.appId} key={w.appId} />
+              ))}
             </HStack>
           </>
         )}

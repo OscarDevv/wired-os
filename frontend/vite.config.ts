@@ -14,8 +14,8 @@ export default defineConfig({
       open: true,
       gzipSize: true,
       brotliSize: true,
-      template: "treemap"
-    })
+      template: "treemap",
+    }),
   ],
 
   resolve: {
@@ -28,6 +28,6 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
     globals: false,
-    css: true
-  }
+    css: true,
+  },
 })

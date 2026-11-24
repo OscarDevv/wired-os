@@ -81,7 +81,7 @@ export interface ${n}Props {
 
   [`${n}.spec.tsx`]: ``,
 
-  [`${n}.stories.ts`]: ``
+  [`${n}.stories.ts`]: ``,
 }
 
 for (const [fileName, content] of Object.entries(files)) {

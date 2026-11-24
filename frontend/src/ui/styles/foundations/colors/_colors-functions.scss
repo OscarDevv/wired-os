@@ -30,11 +30,7 @@
 $colors: ();
 
 @each $name, $config in $hues {
-  $colors: map.set(
-    $colors,
-    $name,
-    build-scale(list.nth($config, 1), list.nth($config, 2))
-  );
+  $colors: map.set($colors, $name, build-scale(list.nth($config, 1), list.nth($config, 2)));
 }
 
 @function c($name, $step: 500) {
