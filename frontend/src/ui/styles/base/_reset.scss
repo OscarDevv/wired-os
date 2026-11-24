@@ -1,7 +1,8 @@
-@use "./fonts";
+@use "./root";
 
 body {
   min-height: 100dvh;
+  font-family: "Ibm-plex-sans", sans-serif;
 }
 
 #root {

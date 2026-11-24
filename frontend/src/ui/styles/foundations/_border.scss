@@ -1,0 +1,61 @@
+@use "sass:map";
+@use "./colors/index" as *;
+
+$borders-sizes: (
+  xs: 1px,
+  sm: 2px,
+  md: 3px,
+  lg: 4px,
+  xl: 6px,
+  2xl: 8px,
+  3xl: 12px,
+  4xl: 16px,
+);
+
+$borders-radius: (
+  xs: 2px,
+  sm: 4px,
+  md: 6px,
+  lg: 8px,
+  xl: 12px,
+  2xl: 16px,
+  3xl: 24px,
+  4xl: 32px,
+  full: 9999px,
+);
+
+$borders-styles: dotted, dashed, solid, double, groove, ridge;
+
+@each $name, $value in $borders-sizes {
+  :root {
+    --border-#{$name}: $value;
+  }
+
+  .border-#{$name} {
+    border-width: $value;
+  }
+}
+
+@each $name, $value in $borders-radius {
+  :root {
+    --border-#{$name}: $value;
+  }
+
+  .border-r-#{$name} {
+    border-radius: $value;
+  }
+}
+
+@each $style in $borders-styles {
+  .border-#{$style} {
+    border-style: $style;
+  }
+}
+
+@each $name in map.keys($hues) {
+  @each $step in $steps {
+    .border-#{$name}-#{$step} {
+      border-color: c($name, $step);
+    }
+  }
+}

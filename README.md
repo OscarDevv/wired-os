@@ -15,7 +15,6 @@
 
 Wired OS is a website simulating an Operating System, it was made just for fun and learning new coding concepts.
 
-
 ## Tech stack
 
 > [!NOTE]

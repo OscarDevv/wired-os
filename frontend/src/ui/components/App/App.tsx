@@ -9,11 +9,11 @@ import { Portal } from "@chakra-ui/react/portal"
 import { Center } from "@chakra-ui/react/center"
 
 export function App({ id, variant = "default" }: AppProps) {
-  const app = useAppsStore(s => s.apps.find(app => app.id === id))
+  const app = useAppsStore((s) => s.apps.find((app) => app.id === id))
 
-  const open = useWindowsStore(s => s.open)
-  const restore = useWindowsStore(s => s.restore)
-  const window = useWindowsStore(s => s.windows.find(w => w.appId === id))
+  const open = useWindowsStore((s) => s.open)
+  const restore = useWindowsStore((s) => s.restore)
+  const window = useWindowsStore((s) => s.windows.find((w) => w.appId === id))
 
   if (!app) return null
 

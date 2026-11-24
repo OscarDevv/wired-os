@@ -60,31 +60,32 @@ await fs.mkdir(componentPath, {
 const n = name.toString()
 
 const files = {
-  [`${n}.tsx`]: `import styles from "./${n}.module.scss"
+  ["index.tsx"]: `import styles from "./${n}.module.scss"
 import type { ${n}Props } from "./${n}.types.ts"
 
 export function ${n}({ children }: ${n}Props) {
   return (
     <>
-      <p className={styles.${n}}>Component: ${n}</p>
       {children}
     </>
   )
 }`,
 
-  [`${n}.module.scss`]: `.${n} {
-  color: red;
-}`,
+  [`${n}.module.scss`]: ``,
 
   [`${n}.types.ts`]: `import type { ReactNode } from "react"
 
 export interface ${n}Props {
   children: ReactNode;
 }`,
+
+  [`${n}.spec.tsx`]: ``,
+
+  [`${n}.stories.ts`]: ``,
 }
 
 for (const [fileName, content] of Object.entries(files)) {
   await fs.writeFile(path.join(componentPath, fileName), content)
 }
 
-p.outro("Component created at " + path.join(componentPath, n + ".tsx"))
+p.outro("Component created at " + path.join(componentPath, n, "index.tsx"))

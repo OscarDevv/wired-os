@@ -1,0 +1,7 @@
+@function type-exception($expected-type, $received-type) {
+  @if $expected-type == $received-type {
+    @warn "Attempted to throw exception type-exception, but $expected-type and $received-type are equal.";
+  }
+
+  @return "Expected type #{$expected-type}, but instead received type #{$received-type}.";
+}

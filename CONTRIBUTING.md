@@ -113,16 +113,16 @@ The scope is optional, but recommended whenever it helps identify the affected p
 
 Here are some commonly used commit types:
 
-| Type | Purpose |
-|:---:|---|
-| `feat` | Introduces a new feature. |
-| `fix` | Fixes a bug. |
+|    Type    | Purpose                                                                     |
+| :--------: | --------------------------------------------------------------------------- |
+|   `feat`   | Introduces a new feature.                                                   |
+|   `fix`    | Fixes a bug.                                                                |
 | `refactor` | Changes the internal implementation without altering its external behavior. |
-| `style` | Applies formatting changes that don't affect the code's behavior. |
-| `chore` | Handles maintenance tasks. |
-| `docs` | Updates project documentation. |
-| `perf` | Improves application performance. |
-| `build` | Changes the build system or external dependencies. |
+|  `style`   | Applies formatting changes that don't affect the code's behavior.           |
+|  `chore`   | Handles maintenance tasks.                                                  |
+|   `docs`   | Updates project documentation.                                              |
+|   `perf`   | Improves application performance.                                           |
+|  `build`   | Changes the build system or external dependencies.                          |
 
 For more information, check the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
 

@@ -65,7 +65,7 @@ function findNode(nodes: FSNode[], id: string): FSNode | undefined {
 function updateNode(nodes: FSNode[], id: string, fn: (node: FSNode) => FSNode): FSNode[] {
   let changed = false
 
-  const updated = nodes.map(node => {
+  const updated = nodes.map((node) => {
     if (node.id === id) {
       changed = true
       return fn(node)
@@ -79,7 +79,7 @@ function updateNode(nodes: FSNode[], id: string, fn: (node: FSNode) => FSNode): 
 
         return {
           ...node,
-          content
+          content,
         }
       }
     }

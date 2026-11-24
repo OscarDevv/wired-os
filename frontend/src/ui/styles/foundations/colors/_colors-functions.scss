@@ -1,0 +1,52 @@
+@use "sass:list";
+@use "sass:math";
+@use "sass:string";
+@use "sass:map";
+
+@use "./colors-variables" as *;
+
+@function round-to($value, $decimals: 4) {
+  $factor: math.pow(10, $decimals);
+  @return math.div(math.round($value * $factor), $factor);
+}
+
+@function oklch-color($hue, $max-chroma, $step) {
+  $l: round-to(map.get($lightness, $step) * 100, 2);
+  $c: round-to($max-chroma * map.get($chroma-curve, $step), 4);
+
+  @return string.unquote("oklch(#{$l}% #{$c} #{$hue})");
+}
+
+@function build-scale($hue, $max-chroma) {
+  $scale: ();
+
+  @each $step in $steps {
+    $scale: map.set($scale, $step, oklch-color($hue, $max-chroma, $step));
+  }
+
+  @return $scale;
+}
+
+$colors: ();
+
+@each $name, $config in $hues {
+  $colors: map.set($colors, $name, build-scale(list.nth($config, 1), list.nth($config, 2)));
+}
+
+@function c($name, $step: 500) {
+  @if map.has-key($semantic-colors, $name) {
+    $name: map.get($semantic-colors, $name);
+  }
+
+  @if not map.has-key($colors, $name) {
+    @error "Color #{$name} wasn't found.";
+  }
+
+  $scale: map.get($colors, $name);
+
+  @if not map.has-key($scale, $step) {
+    @error "Step #{$step} is invalid. Use #{$steps}.";
+  }
+
+  @return map.get($scale, $step);
+}
